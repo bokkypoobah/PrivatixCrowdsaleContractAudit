@@ -147,7 +147,7 @@ contract Sale is MultiOwners {
         } else {
             rate = 105;
         }
-        return ((_value / weiPerToken) / 100) * rate;
+        return ((_value * rate) / weiPerToken) / 100;
     }
 
     function checkWhitelist(address contributor) internal returns (bool) {
