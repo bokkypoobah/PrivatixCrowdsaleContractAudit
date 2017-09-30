@@ -3,8 +3,9 @@
 [https://privatix.io/](https://privatix.io/).
 
 Commits
-[c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc) and
-[58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6).
+[c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc),
+[58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6) and
+[609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51).
 
 <br />
 
@@ -103,9 +104,13 @@ Commits
 ### Second Review Recommendations
 
 * **LOW IMPORTANCE** Consider updating the Solidity version number from `^0.4.11` and `^0.4.13` to a recent version
+  * [x] Developer replied that they are planning to use
+    [Solidity flattener](https://github.com/BlockCatIO/solidity-flattener/blob/master/src/solidity_flattener#L56) and
+    the Solidity version in this tool is hard-coded to `^0.4.13`
 * **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing this modifier
 * **LOW IMPORTANCE** In `Sale.calcAmount(...)`, rewrite `return ((_value / weiPerToken) / 100) * rate;` as
   `return (_value * rate / weiPerToken) / 100;` for better precision
+  * [x] Fixed in [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51) 
 
 <br />
 

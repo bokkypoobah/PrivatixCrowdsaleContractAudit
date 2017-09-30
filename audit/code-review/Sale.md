@@ -123,15 +123,22 @@ contract Sale is MultiOwners {
         _;        
     }
 
+    // BK Ok - Constructor
     function Sale(uint256 _startTime, address _wallet) {
+        // BK Ok
         require(_startTime >=  now);
+        // BK Ok
         require(_wallet != 0x0);
 
+        // BK Ok
         token = new Token();
 
+        // BK Ok
         wallet = _wallet;
+        // BK Ok
         startTime = _startTime;
 
+        // BK Next 5 Ok
         minimalEther = 1e16; // 0.01 ether
         endTime = _startTime + 28 days;
         weiPerToken = 1e18 / 100e8; // token price
@@ -140,6 +147,7 @@ contract Sale is MultiOwners {
 
     
         // We love our Pre-ITO backers
+        // BK Next block Ok
         token.mint(0x992066a964C241eD4996E750284d039B14A19fA5, 11199999999860);
         token.mint(0x1F4df63B8d32e54d94141EF8475c55dF4db2a02D, 9333333333170);
         token.mint(0xce192Be11DdE37630Ef842E3aF5fBD7bEA15C6f9, 2799999999930);
@@ -158,9 +166,11 @@ contract Sale is MultiOwners {
         token.mint(0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b, 24000000000);
         token.mint(0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F, 17600000000);
 
+        // BK Ok
         maximumTokens = token.totalSupply() + 8000000e8;
 
         // Also we like KYC
+        // BK Ok
         whitelist[0x38C0fC6F24013ED3F7887C05f95d17A8883be4bA] = 100e18;
     }
 
@@ -191,8 +201,8 @@ contract Sale is MultiOwners {
         } else {
             rate = 105;
         }
-        // BK NOTE - Consider rewriting the expression below for better precision
-        return ((_value / weiPerToken) / 100) * rate;
+        // BK Ok
+        return ((_value * rate) / weiPerToken) / 100;
     }
 
     function checkWhitelist(address contributor) internal returns (bool) {
