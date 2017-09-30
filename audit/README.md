@@ -72,6 +72,7 @@ Commits
 * **LOW IMPORTANCE** In `Sale.updateStatus()`, rewrite the expressions for the bounty, team and founders allocation calculations for more 
   precision. e.g. `bountyAvailable = token.totalSupply() / 100 * 3;` should be `bountyAvailable = (token.totalSupply() * 3) / 100;`.
   Multiplication before division
+* **LOW IMPORTANCE** In *MultiOwners*, consider logging events when new owners are granted access, and existing owners are revoked access
 
 <br />
 
@@ -94,8 +95,8 @@ Note that this testing uses the OpenZeppelin library commit
 
 ## Code Review
 
-* [ ] [code-review/MultiOwners.md](code-review/MultiOwners.md)
-  * [ ] contract MultiOwners 
+* [x] [code-review/MultiOwners.md](code-review/MultiOwners.md)
+  * [x] contract MultiOwners 
 * [ ] [code-review/Sale.md](code-review/Sale.md)
   * [ ] contract Sale is MultiOwners 
 * [ ] [code-review/Token.md](code-review/Token.md)
