@@ -37,7 +37,8 @@ Commits
   prevents the contract owner from directly executing the `burn(...)` function, but allows `Sale.refund(...)` to burn refunded tokens
   
   * [x] The developer has brought to my attention that the owner of the *Token* contract is the *Sale* contract, not the crowdsale contract
-    owner, so this is not an issue
+    owner, so this is not an issue. Also, the `internal` keyword change will prevent this function from working correctly, as the call
+    is across contracts from *Sale* to *Token*
 * **LOW IMPORTANCE** *Token* has the following statements `StandardToken.transferFrom(from, to, value);`, `BasicToken.transfer(to, value);`,
   `MintableToken.finishMinting();` and `MintableToken.mint(contributor, amount);`. Consider replacing these with
   `super.transferFrom(from, to, value);`, `super.transfer(to, value);`, `super.finishMinting();` and `super.mint(contributor, amount);` as any
@@ -73,6 +74,13 @@ Commits
   precision. e.g. `bountyAvailable = token.totalSupply() / 100 * 3;` should be `bountyAvailable = (token.totalSupply() * 3) / 100;`.
   Multiplication before division
 * **LOW IMPORTANCE** In *MultiOwners*, consider logging events when new owners are granted access, and existing owners are revoked access
+* **LOW IMPORTANCE** As stated in the [ERC20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#decimals),
+  `decimals` should be defined as `uint8`
+* **LOW IMPORTANCE** In *Token*, consider adding `bool _transferAllowed` to the `TransferAllowed(...)` event, removing the `if(...)` condition in
+  `finishMinting(...)`, and logging the `_transferAllowed` value
+* **LOW IMPORTANCE** In *Token*, `mint(...)` can be called by anyone, but `MintableToken.mint(...)` will only allow the owner to execute
+  `Token.mint(...)`. Just a small suggestion to add `onlyOwner` to `Token.mint(...)` to explicitly inform the readers of the source code
+  that only the owner can execute this function
 
 <br />
 
@@ -99,8 +107,8 @@ Note that this testing uses the OpenZeppelin library commit
   * [x] contract MultiOwners 
 * [ ] [code-review/Sale.md](code-review/Sale.md)
   * [ ] contract Sale is MultiOwners 
-* [ ] [code-review/Token.md](code-review/Token.md)
-  * [ ] contract Token is MintableToken 
+* [x] [code-review/Token.md](code-review/Token.md)
+  * [x] contract Token is MintableToken 
 
 
 <br />
