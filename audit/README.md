@@ -19,6 +19,8 @@ Commits
 
 * [Summary](#summary)
 * [Recommendations](#recommendations)
+* [Risks](#risks)
+* [Testing](#testing)
 * [Code Review](#code-review)
 
 <br />
@@ -54,6 +56,22 @@ Commits
               calc2 = hardCap * 999 / 1000;
           }
       }
+
+<br />
+
+<hr />
+
+## Risks
+
+* **MEDIUM IMPORTANCE** *Sale* and *Token* depend on the OpenZeppelin libraries, and the latest version of the OpenZeppelin libraries will
+  be used when compiling the *Sale* and *Token* contracts for deployment. There are frequent changes to this library (last set of changes
+  5d, 7d, 7d, 8d, 9d, 11d, 12d, 15d, 16d, ... ago). There is a risk that you may compile in partially tested changes.
+
+<br />
+
+<hr />
+
+## Testing
 
 <br />
 
