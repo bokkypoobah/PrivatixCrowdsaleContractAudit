@@ -3,8 +3,9 @@ PASSWORD=testtest
 
 SOURCEDIR=../../contracts
 
-CROWDSALESOL=SnipCoin.sol
-CROWDSALEJS=SnipCoin.js
+CROWDSALESOL=Sale.sol
+CROWDSALEJS=Sale.js
+TOKENSOL=Token.sol
 
 DEPLOYMENTDATA=deploymentData.txt
 

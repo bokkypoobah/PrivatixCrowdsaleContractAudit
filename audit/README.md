@@ -2,6 +2,9 @@
 
 [https://privatix.io/](https://privatix.io/).
 
+Commits
+[c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc).
+
 <br />
 
 <hr />
@@ -15,7 +18,42 @@
 ## Table Of Contents
 
 * [Summary](#summary)
+* [Recommendations](#recommendations)
 * [Code Review](#code-review)
+
+<br />
+
+<hr />
+
+## Recommendations
+
+* **LOW IMPORTANCE** The event `Transfer(...)` in *Token* is a duplicate of `Transfer(...)` in *ERC20Basic* and should be removed.
+* **MEDIUM IMPORTANCE** What is the `burn(...)` function for? It breaks the trustlessness of the token contract as the contract can destroy any
+  account's token balance. The reply from the developer is that `burn(...)` is only for use by `Sale.refund(...)`.
+  
+  Replace `function burn(address from) onlyOwner returns (bool) {` with `function burn(address from) internal returns (bool) {` and this
+  prevents the contract owner from directly executing the `burn(...)` function, but allows `Sale.refund(...)` to burn refunded tokens
+* **LOW IMPORTANCE** *Token* has the following statements `StandardToken.transferFrom(from, to, value);`, `BasicToken.transfer(to, value);`,
+  `MintableToken.finishMinting();` and `MintableToken.mint(contributor, amount);`. Consider replacing these with
+  `super.transferFrom(from, to, value);`, `super.transfer(to, value);`, `super.finishMinting();` and `super.mint(contributor, amount);` as any
+  intermediate contract functions may be bypassed
+* **LOW IMPORTANCE** The expression `((hardCap / 1000) * 999)` in *Sale* should be rewritten as `((hardCap * 999) / 1000)` for more precision
+  in the calculated result. See the following sample calculation
+
+      pragma solidity ^0.4.16;
+
+      contract Test {
+          uint public hardCap = 57142e18;
+          uint public calc1;
+          uint public calc2;
+    
+          function Test() public {
+              // Result 57142000000000000000000
+              calc1 = ((hardCap / 1000) * 999);
+              // Result 57084858000000000000000
+              calc2 = hardCap * 999 / 1000;
+          }
+      }
 
 <br />
 
