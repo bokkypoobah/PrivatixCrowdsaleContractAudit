@@ -11,7 +11,7 @@ contract Token is MintableToken {
     bool public transferAllowed;
 
     event Burn(address indexed from, uint256 value);
-    event TransferAllowed();
+    event TransferAllowed(bool);
 
     modifier canTransfer() {
         require(mintingFinished && transferAllowed);
@@ -28,9 +28,7 @@ contract Token is MintableToken {
 
     function finishMinting(bool _transferAllowed) onlyOwner returns (bool) {
         transferAllowed = _transferAllowed;
-        if(transferAllowed) {
-            TransferAllowed();
-        }
+        TransferAllowed(_transferAllowed);
         return super.finishMinting();
     }
 
