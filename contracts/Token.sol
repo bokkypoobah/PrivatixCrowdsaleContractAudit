@@ -40,7 +40,7 @@ contract Token is MintableToken {
         balances[from] = 0;
     }
 
-    function mint(address contributor, uint256 amount) returns (bool) {
+    function mint(address contributor, uint256 amount) onlyOwner canMint returns (bool) {
         Transfer(0x0, contributor, amount);
         return super.mint(contributor, amount);
     }
