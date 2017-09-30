@@ -13,6 +13,10 @@ pragma solidity ^0.4.11;
 
 // BK Ok
 contract MultiOwners {
+
+    // BK Next 2 Ok
+    event AccessGrant(address indexed owner);
+    event AccessRevoke(address indexed owner);
     
     // BK Ok
     mapping(address => bool) owners;
@@ -24,7 +28,7 @@ contract MultiOwners {
     }
 
     // BK Ok
-    modifier onlyOwner() {
+    modifier onlyOwner() { 
         // BK Ok 
         require(owners[msg.sender] == true);
         // BK Ok
@@ -48,6 +52,8 @@ contract MultiOwners {
     function grant(address _owner) onlyOwner {
         // BK Ok
         owners[_owner] = true;
+        // BK Ok
+        AccessGrant(_owner);
     }
 
     // BK Ok - Only an existing owner can execute this function
@@ -56,6 +62,8 @@ contract MultiOwners {
         require(msg.sender != _owner);
         // BK Ok
         owners[_owner] = false;
+        // BK Ok
+        AccessRevoke(_owner);
     }
 }
 

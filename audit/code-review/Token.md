@@ -21,18 +21,16 @@ contract Token is MintableToken {
     string public constant name = 'Privatix';
     // BK Ok
     string public constant symbol = 'PRIX';
-    // BK NOTE - This should be `uint8`
-    uint256 public constant decimals = 8;
+    // BK Ok
+    uint8 public constant decimals = 8;
     // BK Ok
     bool public transferAllowed;
 
-    // BK NOTE - This event is already defined in ERC20Basic
-    event Transfer(address indexed from, address indexed to, uint256 value);
     // BK Ok
     event Burn(address indexed from, uint256 value);
     // BK NOTE - Consider adding the parameter `bool _transferAllowed` to the TransferAllowed event
     // BK Ok
-    event TransferAllowed();
+    event TransferAllowed(bool);
 
     // BK Ok
     modifier canTransfer() {
@@ -44,29 +42,24 @@ contract Token is MintableToken {
     
     // BK Ok
     function transferFrom(address from, address to, uint256 value) canTransfer returns (bool) {
-        // BK NOTE - Consider using `super.transferFrom(...)`
         // BK Ok
-        return StandardToken.transferFrom(from, to, value);
+        return super.transferFrom(from, to, value);
     }
 
     // BK Ok
     function transfer(address to, uint256 value) canTransfer returns (bool) {
-        // BK NOTE - Consider using `super.transfer(...)`
         // BK Ok
-        return BasicToken.transfer(to, value);
+        return super.transfer(to, value);
     }
 
     // BK Ok
     function finishMinting(bool _transferAllowed) onlyOwner returns (bool) {
         // BK Ok
         transferAllowed = _transferAllowed;
-        // BK NOTE - Consider removing the if condition and logging the _transferAllowed value
-        if(transferAllowed) {
-            // BK NOTE - Consider removing the if condition and logging the _transferAllowed value
-            TransferAllowed();
-        }
         // BK Ok
-        return MintableToken.finishMinting();
+        TransferAllowed(_transferAllowed);
+        // BK Ok
+        return super.finishMinting();
     }
 
     // BK Ok - Only the owner can execute this function, and the owner is the Sale contract. To be called by `Sale.refund()`
@@ -83,14 +76,12 @@ contract Token is MintableToken {
         balances[from] = 0;
     }
 
-    // BK NOTE - Anyone can call this to mint tokens, but MintableToken.mint can only be called by the owner, in this case Sale
-    // BK NOTE - Would be good to explicitly add onlyOwner
     // BK Ok
-    function mint(address contributor, uint256 amount) returns (bool) {
+    function mint(address contributor, uint256 amount) onlyOwner canMint returns (bool) {
         // BK Ok
         Transfer(0x0, contributor, amount);
         // BK Ok
-        return MintableToken.mint(contributor, amount);
+        return super.mint(contributor, amount);
     }
 }
 

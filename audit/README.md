@@ -3,7 +3,8 @@
 [https://privatix.io/](https://privatix.io/).
 
 Commits
-[c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc).
+[c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc) and
+[58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6).
 
 <br />
 
@@ -29,7 +30,8 @@ Commits
 
 ## Recommendations
 
-* **LOW IMPORTANCE** The event `Transfer(...)` in *Token* is a duplicate of `Transfer(...)` in *ERC20Basic* and should be removed.
+* **LOW IMPORTANCE** The event `Transfer(...)` in *Token* is a duplicate of `Transfer(...)` in *ERC20Basic* and should be removed
+  * [x] Removed in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **MEDIUM IMPORTANCE** What is the `burn(...)` function for? It breaks the trustlessness of the token contract as the owner can destroy any
   account's token balance. The reply from the developer is that `burn(...)` is only for use by `Sale.refund(...)`.
   
@@ -43,6 +45,7 @@ Commits
   `MintableToken.finishMinting();` and `MintableToken.mint(contributor, amount);`. Consider replacing these with
   `super.transferFrom(from, to, value);`, `super.transfer(to, value);`, `super.finishMinting();` and `super.mint(contributor, amount);` as any
   intermediate contract functions may be bypassed
+  * [x] Updated in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **LOW IMPORTANCE** The expression `((hardCap / 1000) * 999)` in *Sale* should be rewritten as `((hardCap * 999) / 1000)` for more precision
   in the calculated result. See the following sample calculation
 
@@ -61,26 +64,35 @@ Commits
           }
       }
 
+  * [x] Fixed in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **MEDIUM IMPORTANCE** *Sale* and *Token* depend on the OpenZeppelin libraries, and the latest version of the OpenZeppelin libraries will
   be used when compiling the *Sale* and *Token* contracts for deployment. There are frequent changes to this library (last set of changes
   5d, 7d, 7d, 8d, 9d, 11d, 12d, 15d, 16d, ... ago). There is a risk that you may compile in partially tested changes. Consider hand-assembling
   the combined source code with a particular OpenZeppelin commit, testing with this version, and checking for further bug fix commits before
   deployment to mainnet. Or note what OpenZeppelin commit you are testing with, and review all new changes in OpenZeppelin before deployment
   to mainnet
+  * [x] Developer has been made aware of this
 * **LOW IMPORTANCE** In `Sale.updateStatus()` the bounty, team and founders allocations are calculated as 3%, 7% and 7% respectively. Say the
   totalSupply is 100, bounty%=3, team%=7, founders%=7. totalSupply after allocation is 100+3+7+7=117. bounty=3/117=2.56%, team=founders=7/117=
   5.98%. Is this 2.56%, 5.98% and 5.98% the intended distribution?
+  * [x] Developer has updated the code in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
+  * [ ] BK to confirm the calculations are correct
 * **LOW IMPORTANCE** In `Sale.updateStatus()`, rewrite the expressions for the bounty, team and founders allocation calculations for more 
   precision. e.g. `bountyAvailable = token.totalSupply() / 100 * 3;` should be `bountyAvailable = (token.totalSupply() * 3) / 100;`.
   Multiplication before division
+  * [x] Fixed in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **LOW IMPORTANCE** In *MultiOwners*, consider logging events when new owners are granted access, and existing owners are revoked access
+  * [x] Added in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **LOW IMPORTANCE** As stated in the [ERC20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md#decimals),
   `decimals` should be defined as `uint8`
+  * [x] Fixed in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **LOW IMPORTANCE** In *Token*, consider adding `bool _transferAllowed` to the `TransferAllowed(...)` event, removing the `if(...)` condition in
   `finishMinting(...)`, and logging the `_transferAllowed` value
+  * [x] Updated in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 * **LOW IMPORTANCE** In *Token*, `mint(...)` can be called by anyone, but `MintableToken.mint(...)` will only allow the owner to execute
   `Token.mint(...)`. Just a small suggestion to add `onlyOwner` to `Token.mint(...)` to explicitly inform the readers of the source code
   that only the owner can execute this function
+  * [x] Updated in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
 
 <br />
 
