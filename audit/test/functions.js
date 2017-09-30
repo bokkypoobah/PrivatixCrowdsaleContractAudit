@@ -15,9 +15,9 @@ addAccount(eth.accounts[4], "Account #4 - Whitelisted");
 addAccount(eth.accounts[5], "Account #5");
 addAccount(eth.accounts[6], "Account #6");
 addAccount(eth.accounts[7], "Account #7");
-addAccount(eth.accounts[8], "Account #8");
-addAccount(eth.accounts[9], "Account #9");
-addAccount(eth.accounts[10], "Account #10");
+// addAccount(eth.accounts[8], "Account #8");
+// addAccount(eth.accounts[9], "Account #9");
+// addAccount(eth.accounts[10], "Account #10");
 addAccount("0x992066a964C241eD4996E750284d039B14A19fA5", "Test 01");
 addAccount("0x1F4df63B8d32e54d94141EF8475c55dF4db2a02D", "Test 02");
 addAccount("0xce192Be11DdE37630Ef842E3aF5fBD7bEA15C6f9", "Test 03");
@@ -45,9 +45,9 @@ var account4 = eth.accounts[4];
 var account5 = eth.accounts[5];
 var account6 = eth.accounts[6];
 var account7 = eth.accounts[7];
-var account8 = eth.accounts[8];
-var account9 = eth.accounts[9];
-var account10 = eth.accounts[10];
+// var account8 = eth.accounts[8];
+// var account9 = eth.accounts[9];
+// var account10 = eth.accounts[10];
 
 var baseBlock = eth.blockNumber;
 
@@ -204,7 +204,7 @@ function addCrowdsaleContractAddressAndAbi(address, abi) {
 var crowdsaleFromBlock = 0;
 function printCrowdsaleContractDetails() {
   console.log("RESULT: crowdsaleContractAddress=" + crowdsaleContractAddress);
-  // console.log("RESULT: crowdsaleContractAbi=" + JSON.stringify(crowdsaleContractAbi));
+  console.log("RESULT: crowdsaleContractAbi=" + JSON.stringify(crowdsaleContractAbi));
   if (crowdsaleContractAddress != null && crowdsaleContractAbi != null) {
     var contract = eth.contract(crowdsaleContractAbi).at(crowdsaleContractAddress);
     console.log("RESULT: crowdsale.softCap=" + contract.softCap() + " " + contract.softCap().shift(-18));
@@ -247,29 +247,13 @@ function printTokenContractDetails() {
   if (tokenContractAddress != null && tokenContractAbi != null) {
     var contract = eth.contract(tokenContractAbi).at(tokenContractAddress);
     var decimals = contract.decimals();
+    console.log("RESULT: token.owner=" + contract.owner());
     console.log("RESULT: token.totalSupply=" + contract.totalSupply().shift(-decimals));
     console.log("RESULT: token.name=" + contract.name());
     console.log("RESULT: token.symbol=" + contract.symbol());
     console.log("RESULT: token.decimals=" + decimals);
     console.log("RESULT: token.transferAllowed=" + contract.transferAllowed());
     console.log("RESULT: token.mintingFinished=" + contract.mintingFinished());
-
-    /*
-    console.log("RESULT: token.totalUsdReceived=" + contract.totalUsdReceived());
-    console.log("RESULT: token.version=" + contract.version());
-    console.log("RESULT: token.saleWalletAddress=" + contract.saleWalletAddress());
-    console.log("RESULT: token.snipCoinToEtherExchangeRate=" + contract.snipCoinToEtherExchangeRate());
-    console.log("RESULT: token.isSaleOpen=" + contract.isSaleOpen());
-    console.log("RESULT: token.transferable=" + contract.transferable());
-    console.log("RESULT: token.ethToUsdExchangeRate=" + contract.ethToUsdExchangeRate());
-    console.log("RESULT: token.contractOwner=" + contract.contractOwner());
-    console.log("RESULT: token.accountWithUpdatePermissions=" + contract.accountWithUpdatePermissions());
-    console.log("RESULT: token.DECIMALS_MULTIPLIER=" + contract.DECIMALS_MULTIPLIER());
-    console.log("RESULT: token.SALE_CAP_IN_USD=" + contract.SALE_CAP_IN_USD());
-    console.log("RESULT: token.MINIMUM_PURCHASE_IN_USD=" + contract.MINIMUM_PURCHASE_IN_USD());
-    console.log("RESULT: token.USD_PURCHASE_AMOUNT_REQUIRING_ID=" + contract.USD_PURCHASE_AMOUNT_REQUIRING_ID());
-    console.log("RESULT: token.getWeiToUsdExchangeRate=" + contract.getWeiToUsdExchangeRate());
-    */
 
     var latestBlock = eth.blockNumber;
     var i;
