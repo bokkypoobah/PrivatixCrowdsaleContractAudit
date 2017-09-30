@@ -326,8 +326,8 @@ contract('Sale', (accounts) => {
         totalSupply2 = (await token.totalSupply()).toNumber();
         tokenOnContract = (await token.balanceOf(sale.address)).toNumber();
 
-        assert.equal(Math.round(totalSupply/1000), Math.round(tokenOnWallet2/100));
-        assert.equal(Math.round((totalSupply/10000)*7), Math.round(tokenOnContract/100));
+        assert.equal(Math.round(totalSupply*10/830), Math.round(tokenOnWallet2/10));
+        assert.equal(Math.round(totalSupply*7/830), Math.round(tokenOnContract/10));
 
         await increaseTime(moment.duration(1, 'year'));
         await sale.withdrawTokenToFounder();
@@ -336,7 +336,7 @@ contract('Sale', (accounts) => {
         tokenOnWallet3 = (await token.balanceOf(wallet)).toNumber();
 
         assert.equal(tokenOnContract3, 0);
-        assert.equal(Math.round((totalSupply/10000)*17), Math.round(tokenOnWallet3/100));
+        assert.equal(Math.round((totalSupply/830)*17), Math.round(tokenOnWallet3/10));
     });
 
     it("finishCrowdsale : try to transfer token before ITO is finished to bounty and team and finish minting", async() => {
@@ -403,6 +403,7 @@ contract('Sale', (accounts) => {
 
     it("buyTokens : direct call", async() => {
         await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(moment.duration(1, 'day'));
 
         let client_wl_balance = (await token.balanceOf(client_wl));
         await sale.buyTokens(client_wl, {from: client, value: 100e18});
@@ -413,14 +414,16 @@ contract('Sale', (accounts) => {
 
     it("finishCrowdsale : not more than 10000000e8 token possible to issue", async() => {
         await increaseTime(moment.duration(1, 'week'));
+        let total = (await token.totalSupply());
+        let maximumTokens = (await sale.maximumTokens());
         await increaseTime(moment.duration(1, 'day'));
         await sale.buyTokens(client, {from: client, value: testMaxEthers});
         await increaseTime(moment.duration(1, 'year'));
         await sale.finishCrowdsale();
 
-        let total = (await token.totalSupply());
-        if(total > 10000000e8) {
-            throw assert.AssertionError({message: `${total} should be lower than 10000000e8`});
+        let total2 = (await token.totalSupply());
+        if(total2 == 10000000e8-300000e8+total) {
+            throw new Error(`${maximumTokens} ${total} ${total2} should be lower than 10000000e8`);
         }
     });
 
@@ -527,8 +530,8 @@ contract('Sale', (accounts) => {
         totalSupply2 = (await token.totalSupply()).toNumber();
         tokenOnContract = (await token.balanceOf(sale.address)).toNumber();
 
-        assert.equal(Math.round(totalSupply/1000), Math.round(tokenOnWallet2/100));
-        assert.equal(Math.round((totalSupply/10000)*7), Math.round(tokenOnContract/100));
+        assert.equal(Math.round(totalSupply/830), Math.round(tokenOnWallet2/100));
+        assert.equal(Math.round((totalSupply/8300)*7), Math.round(tokenOnContract/100));
 
         await shouldHaveException(async () => {
             await sale.withdrawTokenToFounder();
@@ -545,7 +548,7 @@ contract('Sale', (accounts) => {
         tokenOnWallet3 = (await token.balanceOf(wallet)).toNumber();
 
         assert.equal(tokenOnContract3, 0);
-        assert.equal(Math.round((totalSupply/10000)*17), Math.round(tokenOnWallet3/100));
+        assert.equal(Math.round((totalSupply/8300)*17), Math.round(tokenOnWallet3/100));
 
     });
 
