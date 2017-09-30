@@ -93,6 +93,8 @@ Commits
   `Token.mint(...)`. Just a small suggestion to add `onlyOwner` to `Token.mint(...)` to explicitly inform the readers of the source code
   that only the owner can execute this function
   * [x] Updated in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
+* **LOW IMPORTANCE** Consider updating the Solidity version number from `^0.4.11` and `^0.4.13` to a recent version
+* **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing
 
 <br />
 

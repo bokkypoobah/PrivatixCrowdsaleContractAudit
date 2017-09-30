@@ -7,80 +7,110 @@ Source file [../../contracts/Sale.sol](../../contracts/Sale.sol).
 <hr />
 
 ```javascript
+// BK Ok - Consider updating to a recent version
 pragma solidity ^0.4.13;
 
+// BK Ok - Carefully check for new commits between testing and mainnet deployment
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+// BK Next 2 Ok
 import './Token.sol';
 import './MultiOwners.sol';
 
 
+// BK Ok
 contract Sale is MultiOwners {
+    // BK Ok
     using SafeMath for uint256;
 
     // Minimal possible cap in ethers
+    // BK Ok
     uint256 public softCap;
 
     // Maximum possible cap in ethers
+    // BK Ok
     uint256 public hardCap;
 
     // totalEthers received
+    // BK Ok
     uint256 public totalEthers;
 
     // Ssale token
+    // BK Ok
     Token public token;
 
     // Withdraw wallet
+    // BK Ok
     address public wallet;
 
     // Maximum available to sell tokens
+    // BK Ok
     uint256 public maximumTokens;
 
     // Minimal ether
+    // BK Ok
     uint256 public minimalEther;
 
     // Token per ether
+    // BK Ok
     uint256 public weiPerToken;
 
     // start and end timestamp where investments are allowed (both inclusive)
+    // BK Next 2 Ok
     uint256 public startTime;
     uint256 public endTime;
 
     // refund if softCap is not reached
+    // BK Ok
     bool public refundAllowed;
 
     // 
+    // BK Ok
     mapping(address => uint256) public etherBalances;
 
     // 
+    // BK Ok
     mapping(address => uint256) public whitelist;
 
     // bounty tokens
+    // BK Ok
     uint256 public bountyAvailable;
 
     // team tokens
+    // BK Ok
     uint256 public teamAvailable;
 
     // founder tokens
+    // BK Ok
     uint256 public founderAvailable;
 
     // softcap reached flag
+    // BK Ok
     bool public softCapReached;
 
 
+    // BK Ok
     event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
+    // BK Ok
     modifier validPurchase() {
+        // BK Ok
         bool withinPeriod = (now >= startTime && now <= endTime);
+        // BK Ok
         bool nonZeroPurchase = msg.value != 0;
 
+        // BK Ok
         require(withinPeriod && nonZeroPurchase);
 
+        // BK Ok
         _;        
     }
 
+    // BK Ok - Not used
     modifier isStarted() {
+        // BK Ok
         require(now >= startTime);
 
+        // BK Ok
         _;        
     }
 
