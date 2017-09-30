@@ -20,6 +20,8 @@ Commits
 
 * [Summary](#summary)
 * [Recommendations](#recommendations)
+  * [First Review Recommendations](#first-review-recommendations)
+  * [Second Review Recommendations](#second-review-recommendations)
 * [Risks](#risks)
 * [Testing](#testing)
 * [Code Review](#code-review)
@@ -29,6 +31,8 @@ Commits
 <hr />
 
 ## Recommendations
+
+### First Review Recommendations
 
 * **LOW IMPORTANCE** The event `Transfer(...)` in *Token* is a duplicate of `Transfer(...)` in *ERC20Basic* and should be removed
   * [x] Removed in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
@@ -93,8 +97,15 @@ Commits
   `Token.mint(...)`. Just a small suggestion to add `onlyOwner` to `Token.mint(...)` to explicitly inform the readers of the source code
   that only the owner can execute this function
   * [x] Updated in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
+
+<br />
+
+### Second Review Recommendations
+
 * **LOW IMPORTANCE** Consider updating the Solidity version number from `^0.4.11` and `^0.4.13` to a recent version
-* **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing
+* **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing this modifier
+* **LOW IMPORTANCE** In `Sale.calcAmount(...)`, rewrite `return ((_value / weiPerToken) / 100) * rate;` as
+  `return (_value * rate / weiPerToken) / 100;` for better precision
 
 <br />
 

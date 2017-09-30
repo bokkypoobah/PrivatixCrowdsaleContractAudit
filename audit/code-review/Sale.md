@@ -114,9 +114,12 @@ contract Sale is MultiOwners {
         _;        
     }
 
+    // BK Ok
     modifier isExpired() {
+        // BK Ok
         require(now > endTime);
 
+        // BK Ok
         _;        
     }
 
@@ -164,7 +167,9 @@ contract Sale is MultiOwners {
     /*
      * @dev fallback for processing ether
      */
+    // BK Ok
     function() payable {
+        // BK Ok
         return buyTokens(msg.sender);
     }
 
@@ -186,6 +191,7 @@ contract Sale is MultiOwners {
         } else {
             rate = 105;
         }
+        // BK NOTE - Consider rewriting the expression below for better precision
         return ((_value / weiPerToken) / 100) * rate;
     }
 
