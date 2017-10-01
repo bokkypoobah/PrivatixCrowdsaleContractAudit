@@ -138,6 +138,12 @@ Commits
   all ETH balances immediately to the crowdsale wallet using `wallet.transfer(eth.balance);`.
   
   For this to occur, the calculation of `softCapReached` will need to be moved into `buyTokens(...)`. And a few other changes need to be made.
+  
+  * [x] Developer wants to keep the gas cost of contributions down to 90,000 and to minimise ETH sitting in the crowdsale contract the 
+    crowdsale administrator will call `withdraw()` frequently, after the `softCap` has been reached 
+
+* **LOW IMPORTANCE** In *Sale*, the first parameter `purchaser` of the event `TokenPurchase(...)` is redundant as it will always be 0x0. Consider
+  removing this parameter
 
 <br />
 
