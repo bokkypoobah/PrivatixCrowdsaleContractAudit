@@ -55,7 +55,7 @@ contract Sale is MultiOwners {
     uint256 public founderReward;
 
 
-    event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
+    event TokenPurchase(address indexed beneficiary, uint256 value, uint256 amount);
 
     modifier validPurchase() {
         bool withinPeriod = (now >= startTime && now <= endTime);
@@ -194,7 +194,7 @@ contract Sale is MultiOwners {
         require(token.totalSupply() + amount <= maximumTokens);
 
         token.mint(contributor, amount);
-        TokenPurchase(0x0, contributor, msg.value, amount);
+        TokenPurchase(contributor, msg.value, amount);
 
         if(softCapReached()) {
             totalEthers = totalEthers + msg.value;
