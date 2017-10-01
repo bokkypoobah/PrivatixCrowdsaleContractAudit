@@ -111,6 +111,18 @@ Commits
 * **LOW IMPORTANCE** In `Sale.calcAmount(...)`, rewrite `return ((_value / weiPerToken) / 100) * rate;` as
   `return (_value * rate / weiPerToken) / 100;` for better precision
   * [x] Fixed in [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51) 
+* **LOW IMPORTANCE** Two `Transfer(0x0, ...)` events are logged for each minting event. `Token.mint(...)` emits one `Transfer(0x0, ...)` event and
+  then calls `MintableToken.mint(...)` that also emits one `Transfer(0x0, ...)` event. `Token.mint(...)` can probably be removed as it does not
+  add any functionality over `MintableToken.mint(...)`
+
+      Mint 0 #229 {"amount":"11199999999860","to":"0x992066a964c241ed4996e750284d039b14a19fa5"}
+      Mint 1 #229 {"amount":"9333333333170","to":"0x1f4df63b8d32e54d94141ef8475c55df4db2a02d"}
+      ...
+      Transfer 0 #229: from=0x0000000000000000000000000000000000000000 to=0x992066a964c241ed4996e750284d039b14a19fa5 value=111999.9999986
+      Transfer 1 #229: from=0x0000000000000000000000000000000000000000 to=0x992066a964c241ed4996e750284d039b14a19fa5 value=111999.9999986
+      Transfer 2 #229: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
+      Transfer 3 #229: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
+      ...
 
 <br />
 

@@ -11,7 +11,7 @@ addAccount(eth.accounts[0], "Account #0 - Miner");
 addAccount(eth.accounts[1], "Account #1 - Contract Owner");
 addAccount(eth.accounts[2], "Account #2 - Wallet");
 addAccount(eth.accounts[3], "Account #3 - Whitelisted");
-addAccount(eth.accounts[4], "Account #4 - Whitelisted");
+addAccount(eth.accounts[4], "Account #4 - Not Whitelisted");
 addAccount(eth.accounts[5], "Account #5");
 addAccount(eth.accounts[6], "Account #6");
 addAccount(eth.accounts[7], "Account #7");
@@ -203,7 +203,7 @@ function addCrowdsaleContractAddressAndAbi(address, abi) {
 var crowdsaleFromBlock = 0;
 function printCrowdsaleContractDetails() {
   console.log("RESULT: crowdsaleContractAddress=" + crowdsaleContractAddress);
-  console.log("RESULT: crowdsaleContractAbi=" + JSON.stringify(crowdsaleContractAbi));
+  // console.log("RESULT: crowdsaleContractAbi=" + JSON.stringify(crowdsaleContractAbi));
   if (crowdsaleContractAddress != null && crowdsaleContractAbi != null) {
     var contract = eth.contract(crowdsaleContractAbi).at(crowdsaleContractAddress);
     console.log("RESULT: crowdsale.softCap=" + contract.softCap() + " " + contract.softCap().shift(-18));

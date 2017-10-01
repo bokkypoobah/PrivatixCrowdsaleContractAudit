@@ -91,7 +91,7 @@ contract Sale is MultiOwners {
         startTime = _startTime;
 
         minimalEther = 1e16; // 0.01 ether
-        endTime = _startTime + 28 days;
+        endTime = _startTime + 3 minutes;
         weiPerToken = 1e18 / 100e8; // token price
         hardCap = 57142e18;
         softCap = 3350e18;
@@ -151,7 +151,7 @@ contract Sale is MultiOwners {
     }
 
     function checkWhitelist(address contributor) internal returns (bool) {
-        if(startTime + 1 days < now) {
+        if(startTime + 1 minutes < now) {
             return true;
         }
         return etherBalances[contributor] + msg.value <= whitelist[contributor];
@@ -228,7 +228,7 @@ contract Sale is MultiOwners {
     // update status (set softCapReached, make available to withdraw ethers to wallet)
     function updateStatus() public {
         // Allow to update only when whitelist stage sale is ended
-        require(startTime + 1 days < now);
+        require(startTime + 1 minutes < now);
 
         if(!softCapReached && this.balance >= softCap) {
             softCapReached = true;
