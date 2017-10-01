@@ -25,6 +25,7 @@ Commits
   * [Second Review Recommendations](#second-review-recommendations)
 * [Risks](#risks)
 * [Testing](#testing)
+  * [Testing 1](#testing-1)
 * [Code Review](#code-review)
 
 <br />
@@ -138,6 +139,24 @@ Commits
 
 Note that this testing uses the OpenZeppelin library commit 
 [5cf5036](https://github.com/OpenZeppelin/zeppelin-solidity/commit/5cf503673faea92c1b5c615c3f8358febf06e160).
+
+<br />
+
+### Testing 1
+
+The following functions were tested using the script [test/01_test1.sh](test/01_test1.sh) with the summary results saved
+in [test/test1results.txt](test/test1results.txt) and the detailed output saved in [test/test1output.txt](test/test1output.txt):
+
+* [x] Deploy *Sale* contract
+* [x] Add whitelisted addresses
+* [x] Send contribution before start - expecting failure
+* [x] Send contribution after start - success for whitelisted account, failure for non-whitelisted account
+* [x] Send contribution after whitelist period over - success for whitelisted and non-whitelisted account
+* [x] Send contribution to hard cap
+* [ ] Attempt transfers - failure
+* [x] Finish crowdsale
+* [ ] Move crowdsale funds to wallet
+* [ ] Transfer tokens
 
 <br />
 
