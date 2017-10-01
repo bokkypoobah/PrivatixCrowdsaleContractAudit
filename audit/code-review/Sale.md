@@ -187,9 +187,16 @@ contract Sale is MultiOwners {
      * @dev calculate amount
      * @return token amount that we should send to our dear investor
      */
+    // BK NOTE - Only for testing this function:
+    // BK NOTE - * can be marked as constant
+    // BK NOTE - * can be marked as public
+    // BK NOTE - * rename to `calcAmountAt(...)`, add `uint256 at`, replace `now` below with `at`, and when calling, call as 
+    // BK NOTE -   `calcAmountAt(msg.value, block.timestamp)`, then can test the time parameter
     function calcAmount(uint256 _value) internal returns (uint256) {
+        // BK Ok
         uint rate;
 
+        // BK Next block Ok
         if(startTime + 2 days >= now) {
             rate = 140;
         } else if(startTime + 7 days >= now) {
@@ -205,10 +212,15 @@ contract Sale is MultiOwners {
         return ((_value * rate) / weiPerToken) / 100;
     }
 
+    // BK NOTE - Consider adding a parameter `uint256 amount` and calling as `checkWhitelist(contributor, msg.value)`
+    // BK Ok
     function checkWhitelist(address contributor) internal returns (bool) {
+        // BK Ok
         if(startTime + 1 days < now) {
+            // BK Ok
             return true;
         }
+        // BK Ok
         return etherBalances[contributor] + msg.value <= whitelist[contributor];
     }
 
@@ -217,8 +229,11 @@ contract Sale is MultiOwners {
      * @dev grant backer until first 24 hours
      * @param contributor address
      */
+    // BK Ok
     function addWhitelist(address contributor, uint256 amount) onlyOwner returns (bool) {
+        // BK Ok
         whitelist[contributor] = amount;
+        // BK Ok
         return true;
     }
 
@@ -227,40 +242,66 @@ contract Sale is MultiOwners {
      * @dev sell token and send to contributor address
      * @param contributor address
      */
+    // BK Ok
     function buyTokens(address contributor) payable validPurchase {
+        // BK Ok
         uint256 amount = calcAmount(msg.value);
+        // BK Ok
         uint256 ethers = msg.value;
 
+        // BK Ok
         require(checkWhitelist(contributor));
+        // BK Ok - The following check should be before the `checkWhitelist(contributor)` check
         require(contributor != 0x0) ;
+        // BK Ok
         require(minimalEther <= msg.value);
+        // BK Ok
         require(totalEthers + ethers <= hardCap);
+        // BK Ok
         require(token.totalSupply() + amount <= maximumTokens);
 
+        // BK Ok
         token.mint(contributor, amount);
+        // BK Ok
         TokenPurchase(0x0, contributor, msg.value, amount);
 
+        // BK NOTE - `totalEthers` should be made more consistent
+        // BK Ok
         if(!softCapReached) {
+            // BK NOTE - Keeping track of contributions if soft cap not reached
+            // BK Ok
             etherBalances[contributor] = etherBalances[contributor] + ethers;
+        // BK Ok
         } else {
+            // BK Ok
             totalEthers = totalEthers + ethers;
         }
     }
 
     // @withdraw to wallet
+    // BK Ok
     function withdraw() public {
+        // BK Ok
         require(softCapReached);
+        // BK Ok
         require(this.balance > 0);
 
+        // BK Ok
         wallet.transfer(this.balance);
     }
 
     // @withdraw token to wallet
+    // BK NOTE - Only can only withdraw tokens after 1 year
+    // BK Ok
     function withdrawTokenToFounder() public {
+        // BK Ok
         require(token.balanceOf(this) > 0);
+        // BK Ok
         require(softCapReached);
+        // BK Ok
         require(startTime + 1 years < now);
 
+        // BK Ok
         token.transfer(wallet, token.balanceOf(this));
     }
 

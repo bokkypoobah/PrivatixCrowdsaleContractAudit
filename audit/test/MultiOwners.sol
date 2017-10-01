@@ -2,6 +2,9 @@ pragma solidity ^0.4.11;
 
 
 contract MultiOwners {
+
+    event AccessGrant(address indexed owner);
+    event AccessRevoke(address indexed owner);
     
     mapping(address => bool) owners;
 
@@ -25,10 +28,12 @@ contract MultiOwners {
 
     function grant(address _owner) onlyOwner {
         owners[_owner] = true;
+        AccessGrant(_owner);
     }
 
     function revoke(address _owner) onlyOwner {
         require(msg.sender != _owner);
         owners[_owner] = false;
+        AccessRevoke(_owner);
     }
 }

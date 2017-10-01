@@ -36,7 +36,6 @@ addAccount("0x95a7BEf91A5512d954c721ccbd6fC5402667FaDe", "Test 15");
 addAccount("0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b", "Test 16");
 addAccount("0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F", "Test 17");
 
-
 var minerAccount = eth.accounts[0];
 var contractOwnerAccount = eth.accounts[1];
 var wallet = eth.accounts[2];
@@ -52,7 +51,7 @@ var account7 = eth.accounts[7];
 var baseBlock = eth.blockNumber;
 
 function unlockAccounts(password) {
-  for (var i = 0; i < eth.accounts.length - 17; i++) {
+  for (var i = 0; i < eth.accounts.length; i++) {
     personal.unlockAccount(eth.accounts[i], password, 100000);
   }
 }

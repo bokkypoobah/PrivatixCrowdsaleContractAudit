@@ -147,7 +147,7 @@ contract Sale is MultiOwners {
         } else {
             rate = 105;
         }
-        return ((_value / weiPerToken) / 100) * rate;
+        return ((_value * rate) / weiPerToken) / 100;
     }
 
     function checkWhitelist(address contributor) internal returns (bool) {
@@ -222,7 +222,7 @@ contract Sale is MultiOwners {
     }
 
     function hardCapReached() internal returns (bool) {
-        return ((hardCap / 1000) * 999) <= totalEthers;
+        return ((hardCap * 999) / 1000) <= totalEthers;
     }
 
     // update status (set softCapReached, make available to withdraw ethers to wallet)
@@ -236,9 +236,9 @@ contract Sale is MultiOwners {
         }
 
         if(softCapReached) {        
-            bountyAvailable = token.totalSupply() / 100 * 3;
-            teamAvailable = token.totalSupply() / 100 * 7;
-            founderAvailable = token.totalSupply() / 100 * 7;
+            bountyAvailable = token.totalSupply() * 3 / 83;
+            teamAvailable = token.totalSupply() * 7 / 83;
+            founderAvailable = token.totalSupply() * 7 / 83;
         }
     }
 

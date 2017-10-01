@@ -114,6 +114,7 @@ unlockAccounts("$PASSWORD");
 printBalances();
 console.log("RESULT: ");
 
+// eth.sendTransaction({from: eth.accounts[0], to: eth.accounts[1], value: web3.toWei("10", "ether")});
 
 // -----------------------------------------------------------------------------
 var saleMessage = "Deploy Crowdsale/Token Contract";
@@ -125,6 +126,7 @@ var saleTx = null;
 var saleAddress = null;
 var token = null;
 
+console.log("RESULT: parameters=" + $STARTTIME + ", \"" + wallet + "\"");
 var sale = saleContract.new($STARTTIME, wallet, {from: contractOwnerAccount, data: saleBin, gas: 6000000},
   function(e, contract) {
     if (!e) {
