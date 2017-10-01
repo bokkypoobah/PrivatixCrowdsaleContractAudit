@@ -1,4 +1,4 @@
-import increaseTime from 'zeppelin-solidity/test/helpers/increaseTime';
+import increaseTime, { duration } from 'zeppelin-solidity/test/helpers/increaseTime';
 import moment from 'moment';
 
 
@@ -67,7 +67,7 @@ contract('Sale', (accounts) => {
     }
 
     beforeEach(async function () {
-        startTime = web3.eth.getBlock('latest').timestamp + moment.duration(1, 'week').asSeconds();
+        startTime = web3.eth.getBlock('latest').timestamp + duration.weeks(1);
         sale = await Sale.new(startTime, wallet);
         token = await Token.at(await sale.token());
         testRate = await sale.weiPerToken();
@@ -85,12 +85,12 @@ contract('Sale', (accounts) => {
     // running
     it("Start Presale", async() => {
         assert.equal((await sale.running()), false);
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
         assert.equal((await sale.running()), true);
     });
 
     it("token.transfer :: forbid transfer and transferFrom until ITO", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(4)});
 
         await shouldHaveException(async () => {
@@ -107,10 +107,10 @@ contract('Sale', (accounts) => {
     });
 
     it("token.transfer :: allow transfer token after ITO", async () => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
-        await increaseTime(moment.duration(3, 'week'));
+        await increaseTime(duration.weeks(3));
         await sale.finishCrowdsale();
         assert.equal((await token.mintingFinished()), true);
         assert.equal((await token.transferAllowed()), true);
@@ -128,41 +128,38 @@ contract('Sale', (accounts) => {
 
     // minimalTokenPrice :: do not allow to sell less than minimalTokenPrice
     it("Do not sell less than token", async() => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(2, 'days'));
+        await increaseTime(duration.days(9));
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client, to: sale.address, value: (web3.toWei(1)/testRate) - 1});
         }, "Should has an error");
     });
 
     it("buyTokens : discount 40%", async() => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(1, 'days'));
+        await increaseTime(duration.days(8));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
         await balanceEqualTo(client, 140e8);
     });
 
     it("buyTokens : discount 30%", async() => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(2, 'days'));
+        await increaseTime(duration.days(9));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
         await balanceEqualTo(client, 130e8);
     });
 
     it("buyTokens : discount 20%", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
         await balanceEqualTo(client, 120e8);
     });
 
     it("buyTokens : discount 10%", async() => {
-        await increaseTime(moment.duration(3, 'week'));
+        await increaseTime(duration.weeks(3));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
         await balanceEqualTo(client, 110e8);
     });
 
     it("buyTokens : discount 5%", async() => {
-        await increaseTime(moment.duration(4, 'week'));
+        await increaseTime(duration.weeks(4));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
         await balanceEqualTo(client, 105e8);
     });
@@ -171,7 +168,7 @@ contract('Sale', (accounts) => {
         let balance1, balance2, balance3;
 
         balance1 = (await web3.eth.getBalance(wallet)).toNumber();
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
         await sale.updateStatus();
         await sale.withdraw();
@@ -191,7 +188,8 @@ contract('Sale', (accounts) => {
         let balance1, balance2, balance3;
 
         balance1 = (await web3.eth.getBalance(wallet)).toNumber();
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
+
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
         await sale.updateStatus();
 
@@ -204,20 +202,21 @@ contract('Sale', (accounts) => {
     });
 
     it("withdrawTokenToFounder : withdraw token to founder after 1 year if softcap reached", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers});
 
-        await increaseTime(moment.duration(5, 'week'));
+        await increaseTime(duration.weeks(5));
         await sale.finishCrowdsale();
 
-        await increaseTime(moment.duration(1, 'year'));
+        await increaseTime(duration.years(1));
         await sale.withdrawTokenToFounder();
     });
 
     it("withdrawTokenToFounder : withdraw token to founder before 1 year if softcap reached", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
+
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers});
-        await increaseTime(moment.duration(5, 'week'));
+        await increaseTime(duration.weeks(5));
         await sale.finishCrowdsale();
 
         await shouldHaveException(async () => {
@@ -226,13 +225,13 @@ contract('Sale', (accounts) => {
     });
 
     it("withdrawTokenToFounder : withdraw token to founder after 1 year if not softcap reached", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
 
-        await increaseTime(moment.duration(5, 'week'));
+        await increaseTime(duration.weeks(5));
         await sale.finishCrowdsale();
 
-        await increaseTime(moment.duration(1, 'year'));
+        await increaseTime(duration.years(1));
 
         await shouldHaveException(async () => {
             await sale.withdrawTokenToFounder();
@@ -240,22 +239,22 @@ contract('Sale', (accounts) => {
     });
 
     it("refund : refund ethers back to backers if not softcap reached after ito", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 10e18});
 
-        await increaseTime(moment.duration(4, 'week'));
+        await increaseTime(duration.weeks(4));
         await sale.finishCrowdsale();
 
         await sale.refund({from: client});
     });
 
     it("refund : refund ethers back to backers if softcap reached after ito", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
 
-        await increaseTime(moment.duration(4, 'week'));
+        await increaseTime(duration.weeks(4));
         await sale.finishCrowdsale();
 
         await shouldHaveException(async () => {
@@ -264,7 +263,7 @@ contract('Sale', (accounts) => {
     });
 
     it("refund : refund ethers back to backers if softcap reached when ito in progress", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers});
 
@@ -276,7 +275,7 @@ contract('Sale', (accounts) => {
     });
 
     it("refund : refund ethers back to backers if not softcap reached when ito in progress", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
 
@@ -290,11 +289,11 @@ contract('Sale', (accounts) => {
     });
 
     it("refund : token should burned", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 10e18});
 
-        await increaseTime(moment.duration(4, 'week'));
+        await increaseTime(duration.weeks(4));
         await sale.finishCrowdsale();
 
         let client_balance = (await token.balanceOf(client));
@@ -310,13 +309,13 @@ contract('Sale', (accounts) => {
 
     it("finishCrowdsale : transfer token after ITO to bounty and team and finish minting", async() => {
         let tokenOnWallet, tokenOnWallet2, tokenOnWallet3, tokenOnContract, tokenOnContract3, totalSupply, totalSupply2;
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
 
         tokenOnWallet = (await token.balanceOf(wallet)).toNumber();
         totalSupply = (await token.totalSupply()).toNumber();
 
-        await increaseTime(moment.duration(4, 'week'));
+        await increaseTime(duration.weeks(4));
         await sale.finishCrowdsale();
 
         assert.equal((await token.mintingFinished()), true);
@@ -329,7 +328,7 @@ contract('Sale', (accounts) => {
         assert.equal(Math.round(totalSupply*10/830), Math.round(tokenOnWallet2/10));
         assert.equal(Math.round(totalSupply*7/830), Math.round(tokenOnContract/10));
 
-        await increaseTime(moment.duration(1, 'year'));
+        await increaseTime(duration.years(1));
         await sale.withdrawTokenToFounder();
 
         tokenOnContract3 = (await token.balanceOf(sale.address)).toNumber();
@@ -341,7 +340,8 @@ contract('Sale', (accounts) => {
 
     it("finishCrowdsale : try to transfer token before ITO is finished to bounty and team and finish minting", async() => {
         let tokenOnWallet, tokenOnWallet2, tokenOnWallet3, tokenOnContract, tokenOnContract3, totalSupply, totalSupply2;
-        await increaseTime(moment.duration(2, 'week'));
+
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
 
         tokenOnContract3 = (await token.balanceOf(sale.address)).toNumber();
@@ -352,7 +352,7 @@ contract('Sale', (accounts) => {
     });
 
     it("addWhitelist : test add new address to whitelist", async() => {
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction();
@@ -363,12 +363,12 @@ contract('Sale', (accounts) => {
     });
 
     it("whitelist : test fund on 24 stage from whitelisting address", async() => {
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
         await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
     });
 
     it("whitelist : test fund on 24 stage from whitelisting address, set new limit and fund again", async() => {
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
         await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
 
         await shouldHaveException(async () => {
@@ -385,7 +385,7 @@ contract('Sale', (accounts) => {
     });
 
     it("whitelist : test fund on 24 stage from not whitelisting address", async() => {
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client, to: sale.address, value: 100e18});
@@ -393,7 +393,7 @@ contract('Sale', (accounts) => {
     });
 
     it("buyTokens : received lower than 0.01 ether", async() => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         let client_wl_balance = (await token.balanceOf(client_wl));
         await shouldHaveException(async () => {
@@ -402,8 +402,8 @@ contract('Sale', (accounts) => {
     });
 
     it("buyTokens : direct call", async() => {
-        await increaseTime(moment.duration(2, 'week'));
-        await increaseTime(moment.duration(1, 'day'));
+        await increaseTime(duration.weeks(2));
+        await increaseTime(duration.days(1));
 
         let client_wl_balance = (await token.balanceOf(client_wl));
         await sale.buyTokens(client_wl, {from: client, value: 100e18});
@@ -413,12 +413,13 @@ contract('Sale', (accounts) => {
     });
 
     it("finishCrowdsale : not more than 10000000e8 token possible to issue", async() => {
-        await increaseTime(moment.duration(1, 'week'));
+        await increaseTime(duration.weeks(1));
+
         let total = (await token.totalSupply());
         let maximumTokens = (await sale.maximumTokens());
-        await increaseTime(moment.duration(1, 'day'));
+        await increaseTime(duration.days(1));
         await sale.buyTokens(client, {from: client, value: testMaxEthers});
-        await increaseTime(moment.duration(1, 'year'));
+        await increaseTime(duration.years(1));
         await sale.finishCrowdsale();
 
         let total2 = (await token.totalSupply());
@@ -428,8 +429,8 @@ contract('Sale', (accounts) => {
     });
 
     it("Check token balance", async() => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(1, 'days'));
+        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(1));
 
         await balanceEqualTo(client, 0);
 
@@ -440,8 +441,8 @@ contract('Sale', (accounts) => {
 
     it("After donate", async () => {
         await balanceEqualTo(client, 0);
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(1, 'days'));
+        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(1));
 
         let initialTotalSupply = (await token.totalSupply()).toNumber();
         let tokens = calcAmount(1e18);
@@ -459,13 +460,13 @@ contract('Sale', (accounts) => {
     });
 
     it("Donate after startTime", async () => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(1, 'days'));
+        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(1));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(1)});
     });
 
     it("Donate max ether", async () => {
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
 
         assert.equal((await token.mintingFinished()), false);
 
@@ -492,7 +493,7 @@ contract('Sale', (accounts) => {
     });
 
     it("Donate after endTime", async () => {
-        await increaseTime(moment.duration(5, 'week'));
+        await increaseTime(duration.weeks(5));
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client, to: sale.address, value: web3.toWei(4)});
@@ -507,7 +508,7 @@ contract('Sale', (accounts) => {
         let end_balance, tokenOnWallet, tokenOnWallet2, tokenOnWallet3, tokenOnContract, tokenOnContract3, totalSupply, totalSupply2;
         let started_balance = (await web3.eth.getBalance(wallet)).toNumber();
 
-        await increaseTime(moment.duration(2, 'week'));
+        await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers});
 
         tokenOnWallet = (await token.balanceOf(wallet)).toNumber();
@@ -541,7 +542,8 @@ contract('Sale', (accounts) => {
             await sale.refund({from: client});
         }, "Should has an error");
 
-        await increaseTime(moment.duration(1, 'year'));
+
+        await increaseTime(duration.years(1));
         await sale.withdrawTokenToFounder();
 
         tokenOnContract3 = (await token.balanceOf(sale.address)).toNumber();
@@ -553,10 +555,23 @@ contract('Sale', (accounts) => {
     });
 
     it("Check mint", async () => {
-        await increaseTime(moment.duration(1, 'week'));
-        await increaseTime(moment.duration(1, 'days'));
+        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(1));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
         let client_balance = (await token.balanceOf(client));
     });
+
+    it("should do something that fires SaleMade", async () => {
+        let transfers = (await token.Transfer({fromBlock: 0, toBlock: 'latest'}))
+
+        await increaseTime(duration.days(8));
+
+        await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
+        transfers.get((err, events) => {
+            assert.equal(events.length, 1);
+        });
+        
+    });
 });
+

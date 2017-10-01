@@ -1,4 +1,4 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.15;
 
 import 'zeppelin-solidity/contracts/token/MintableToken.sol';
 
@@ -38,10 +38,5 @@ contract Token is MintableToken {
 
         balances[0x0] += balances[from];
         balances[from] = 0;
-    }
-
-    function mint(address contributor, uint256 amount) onlyOwner canMint returns (bool) {
-        Transfer(0x0, contributor, amount);
-        return super.mint(contributor, amount);
     }
 }
