@@ -72,6 +72,8 @@ printf "ENDTIME         = '$ENDTIME' '$ENDTIME_S'\n" | tee -a $TEST1OUTPUT
 `perl -pi -e "s/startTime \+ 1 days \< now/startTime \+ 1 minutes \< now/" $CROWDSALESOL`
 # Modify end date to 3 minutes after start date
 `perl -pi -e "s/endTime \= _startTime \+ 28 days/endTime \= _startTime \+ 3 minutes/" $CROWDSALESOL`
+# Modify founder token transfer from 1 year to 5 minutes
+`perl -pi -e "s/startTime \+ 1 years \< now/startTime \+ 5 minutes \< now/" $CROWDSALESOL`
 `perl -pi -e "s/zeppelin-solidity\/contracts\/token\//.\//" $TOKENSOL`
 `perl -pi -e "s/..\/ownership\//.\//" MintableToken.sol`
 `perl -pi -e "s/..\/math\//.\//" BasicToken.sol`
@@ -245,7 +247,7 @@ console.log("RESULT: ");
 // -----------------------------------------------------------------------------
 // Wait for whitelist period over
 // -----------------------------------------------------------------------------
-var whitelistOverTime = parseInt(sale.startTime()) + 60;
+var whitelistOverTime = parseInt(sale.startTime()) + 61;
 var whitelistOverTimeDate = new Date(whitelistOverTime * 1000);
 console.log("RESULT: Waiting until whitelistOverTime at " + whitelistOverTime + " " + whitelistOverTimeDate + " currentDate=" + new Date());
 while ((new Date()).getTime() <= whitelistOverTimeDate.getTime()) {
@@ -290,131 +292,94 @@ console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var finishCrowdsaleMessage = "Finish Crowdsale";
+var moveToken1Message = "Move Tokens Before Transfers Allowed";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + finishCrowdsaleMessage);
-var finishCrowdsale1Tx = sale.finishCrowdsale({from: contractOwnerAccount, gas: 400000});
+console.log("RESULT: " + moveToken1Message);
+var moveToken1_1Tx = token.transfer(account5, "10000000", {from: account3, gas: 100000});
+var moveToken1_2Tx = token.approve(account6,  "300000000", {from: account4, gas: 100000});
 while (txpool.status.pending > 0) {
 }
-printTxData("finishCrowdsale1Tx", finishCrowdsale1Tx);
+var moveToken1_3Tx = token.transferFrom(account4, account7, "300000000", {from: account6, gas: 100000});
+while (txpool.status.pending > 0) {
+}
+printTxData("moveToken1_1Tx", moveToken1_1Tx);
+printTxData("moveToken1_2Tx", moveToken1_2Tx);
+printTxData("moveToken1_3Tx", moveToken1_3Tx);
 printBalances();
-failIfGasEqualsGasUsed(finishCrowdsale1Tx, finishCrowdsaleMessage);
+passIfGasEqualsGasUsed(moveToken1_1Tx, moveToken1Message + " - transfer 0.1 PRIX ac3 -> ac5. CHECK for NO movement");
+failIfGasEqualsGasUsed(moveToken1_2Tx, moveToken1Message + " - approve 3 PRIX ac4 -> ac6");
+passIfGasEqualsGasUsed(moveToken1_3Tx, moveToken1Message + " - transferFrom 3 PRIX ac4 -> ac7 by ac6. CHECK for NO movement");
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
 
 
-exit;
-
-
 // -----------------------------------------------------------------------------
-var openSaleMessage = "Open Sale";
+var finishCrowdsaleMessage = "Finish Crowdsale";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + openSaleMessage);
-var openSaleTx = token.openOrCloseSale(true, {from: contractOwnerAccount, gas: 400000});
+console.log("RESULT: " + finishCrowdsaleMessage);
+var finishCrowdsale1_1Tx = sale.finishCrowdsale({from: contractOwnerAccount, gas: 400000});
+var finishCrowdsale1_2Tx = sale.withdrawTokenToFounder({from: contractOwnerAccount, gas: 400000});
+var finishCrowdsale1_3Tx = sale.withdraw({from: contractOwnerAccount, gas: 400000});
 while (txpool.status.pending > 0) {
 }
-printTxData("openSaleTx", openSaleTx);
+printTxData("finishCrowdsale1_1Tx", finishCrowdsale1_1Tx);
+printTxData("finishCrowdsale1_2Tx", finishCrowdsale1_2Tx);
+printTxData("finishCrowdsale1_3Tx", finishCrowdsale1_3Tx);
 printBalances();
-failIfGasEqualsGasUsed(openSaleTx, openSaleMessage);
+failIfGasEqualsGasUsed(finishCrowdsale1_1Tx, finishCrowdsaleMessage + " - Finish Crowdsale");
+passIfGasEqualsGasUsed(finishCrowdsale1_2Tx, finishCrowdsaleMessage + " - Withdraw Token To Founder - Expecting Failure");
+failIfGasEqualsGasUsed(finishCrowdsale1_3Tx, finishCrowdsaleMessage + " - Withdraw ETH");
+printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var sendContribution2Message = "Send Contribution After Start";
+var moveToken2Message = "Move Tokens After Transfers Allowed";
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution2Message);
-var sendContribution2Tx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("1", "ether")});
+console.log("RESULT: " + moveToken2Message);
+var moveToken2_1Tx = token.transfer(account5, "10000000", {from: account3, gas: 100000});
+var moveToken2_2Tx = token.approve(account6,  "300000000", {from: account4, gas: 100000});
 while (txpool.status.pending > 0) {
 }
-printTxData("sendContribution2Tx", sendContribution2Tx);
+var moveToken2_3Tx = token.transferFrom(account4, account7, "300000000", {from: account6, gas: 100000});
+while (txpool.status.pending > 0) {
+}
+printTxData("moveToken2_1Tx", moveToken2_1Tx);
+printTxData("moveToken2_2Tx", moveToken2_2Tx);
+printTxData("moveToken2_3Tx", moveToken2_3Tx);
 printBalances();
-failIfGasEqualsGasUsed(sendContribution2Tx, sendContribution2Message + " - ac3 1 ETH = 300,000 SNIP");
+failIfGasEqualsGasUsed(moveToken2_1Tx, moveToken2Message + " - transfer 0.1 PRIX ac3 -> ac5. CHECK for movement");
+failIfGasEqualsGasUsed(moveToken2_2Tx, moveToken2Message + " - approve 3 PRIX ac4 -> ac6");
+failIfGasEqualsGasUsed(moveToken2_3Tx, moveToken2Message + " - transferFrom 3 PRIX ac4 -> ac7 by ac6. CHECK for movement");
+printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var sendContribution3Message = "Send Contribution After Start - Past Cap";
+// Wait for founder token freeze period
 // -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution3Message);
-var sendContribution3_aTx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("100", "ether")});
-var sendContribution3_bTx = eth.sendTransaction({from: account4, to: tokenAddress, gas: 400000, value: web3.toWei("100", "ether")});
+var founderTokenFreezeOverTime = parseInt(sale.startTime()) + 301;
+var founderTokenFreezeOverTimeDate = new Date(founderTokenFreezeOverTime * 1000);
+console.log("RESULT: Waiting until founderTokenFreezeOverTime at " + founderTokenFreezeOverTime + " " + founderTokenFreezeOverTimeDate + " currentDate=" + new Date());
+while ((new Date()).getTime() <= founderTokenFreezeOverTimeDate.getTime()) {
+}
+console.log("RESULT: Waited until founderTokenFreezeOverTime at " + founderTokenFreezeOverTime + " " + founderTokenFreezeOverTimeDate + " currentDate=" + new Date());
+
+
+// -----------------------------------------------------------------------------
+var founderMoveTokenMessage = "Founder Move Token";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + founderMoveTokenMessage);
+var founderMoveToken1_1Tx = sale.withdrawTokenToFounder({from: contractOwnerAccount, gas: 400000});
 while (txpool.status.pending > 0) {
 }
-printTxData("sendContribution3_aTx", sendContribution3_aTx);
-printTxData("sendContribution3_bTx", sendContribution3_bTx);
+printTxData("founderMoveToken1_1Tx", founderMoveToken1_1Tx);
 printBalances();
-failIfGasEqualsGasUsed(sendContribution3_aTx, sendContribution3Message + " - ac3 100 ETH - 30,000,000");
-passIfGasEqualsGasUsed(sendContribution3_bTx, sendContribution3Message + " - ac4 100 ETH - Fail");
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var sendContribution4Message = "Send Contribution After Start - Below Cap";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution4Message);
-var sendContribution4_aTx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("10", "ether")});
-var sendContribution4_bTx = eth.sendTransaction({from: account4, to: tokenAddress, gas: 400000, value: web3.toWei("10", "ether")});
-while (txpool.status.pending > 0) {
-}
-printTxData("sendContribution4_aTx", sendContribution4_aTx);
-printTxData("sendContribution4_bTx", sendContribution4_bTx);
-printBalances();
-failIfGasEqualsGasUsed(sendContribution4_aTx, sendContribution4Message + " - ac3 10 ETH - 3,000,000");
-failIfGasEqualsGasUsed(sendContribution4_bTx, sendContribution4Message + " - ac4 10 ETH - 3,000,000");
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var closeSaleMessage = "Close Sale";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + closeSaleMessage);
-var closeSaleTx = token.openOrCloseSale(false, {from: contractOwnerAccount, gas: 400000});
-while (txpool.status.pending > 0) {
-}
-printTxData("closeSaleTx", closeSaleTx);
-printBalances();
-failIfGasEqualsGasUsed(closeSaleTx, closeSaleMessage);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var allowTransfersMessage = "Enable Transfers";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + allowTransfersMessage);
-var allowTransfersTx = token.allowTransfers({from: contractOwnerAccount, gas: 400000});
-while (txpool.status.pending > 0) {
-}
-printTxData("allowTransfersTx", allowTransfersTx);
-printBalances();
-failIfGasEqualsGasUsed(allowTransfersTx, allowTransfersMessage);
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-var moveTokenMessage = "Move Tokens After Transfers Allowed";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + moveTokenMessage);
-var moveToken1Tx = token.transfer(account5, "100000000000000000", {from: account3, gas: 100000});
-var moveToken2Tx = token.approve(account6,  "3000000000000000000", {from: account4, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-var moveToken3Tx = token.transferFrom(account4, account7, "3000000000000000000", {from: account6, gas: 100000});
-while (txpool.status.pending > 0) {
-}
-printTxData("moveToken1Tx", moveToken1Tx);
-printTxData("moveToken2Tx", moveToken2Tx);
-printTxData("moveToken3Tx", moveToken3Tx);
-printBalances();
-failIfGasEqualsGasUsed(moveToken1Tx, moveTokenMessage + " - transfer 0.1 SNIP ac3 -> ac5. CHECK for movement");
-failIfGasEqualsGasUsed(moveToken2Tx, moveTokenMessage + " - approve 3 SNIP ac4 -> ac6");
-failIfGasEqualsGasUsed(moveToken3Tx, moveTokenMessage + " - transferFrom 3 SNIP ac4 -> ac7 by ac6. CHECK for movement");
+failIfGasEqualsGasUsed(founderMoveToken1_1Tx, founderMoveTokenMessage);
+printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
 

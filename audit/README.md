@@ -25,7 +25,7 @@ Commits
   * [Second Review Recommendations](#second-review-recommendations)
 * [Risks](#risks)
 * [Testing](#testing)
-  * [Testing 1](#testing-1)
+  * [Test 1](#test-1)
 * [Code Review](#code-review)
 
 <br />
@@ -142,7 +142,7 @@ Note that this testing uses the OpenZeppelin library commit
 
 <br />
 
-### Testing 1
+### Test 1
 
 The following functions were tested using the script [test/01_test1.sh](test/01_test1.sh) with the summary results saved
 in [test/test1results.txt](test/test1results.txt) and the detailed output saved in [test/test1output.txt](test/test1output.txt):
@@ -153,10 +153,25 @@ in [test/test1results.txt](test/test1results.txt) and the detailed output saved 
 * [x] Send contribution after start - success for whitelisted account, failure for non-whitelisted account
 * [x] Send contribution after whitelist period over - success for whitelisted and non-whitelisted account
 * [x] Send contribution to hard cap
-* [ ] Attempt transfers - failure
+* [x] Attempt transfers - failure
 * [x] Finish crowdsale
-* [ ] Move crowdsale funds to wallet
-* [ ] Transfer tokens
+* [x] Move crowdsale funds to wallet
+* [x] Transfer tokens
+* [x] Withdraw tokens to founder after long wait period
+
+<br />
+
+### Test 2
+
+The following functions were tested using the script [test/02_test2.sh](test/02_test2.sh) with the summary results saved
+in [test/test2results.txt](test/test2results.txt) and the detailed output saved in [test/test2output.txt](test/test2output.txt):
+
+* [x] Deploy *Sale* contract
+* [x] Add whitelisted addresses
+* [x] Send small contribution after whitelist period over
+* [x] Finish crowdsale
+* [x] Move crowdsale funds and tokens to wallet - expecting failure
+* [x] Withdraw refunds
 
 <br />
 

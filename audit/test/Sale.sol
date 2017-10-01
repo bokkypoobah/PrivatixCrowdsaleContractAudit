@@ -204,7 +204,7 @@ contract Sale is MultiOwners {
     function withdrawTokenToFounder() public {
         require(token.balanceOf(this) > 0);
         require(softCapReached);
-        require(startTime + 1 years < now);
+        require(startTime + 5 minutes < now);
 
         token.transfer(wallet, token.balanceOf(this));
     }
