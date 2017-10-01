@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import './SafeMath.sol';
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import './Token.sol';
 import './MultiOwners.sol';
 
@@ -58,7 +58,7 @@ contract Sale is MultiOwners {
     bool public softCapReached;
 
 
-    event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
+    event TokenPurchase(address indexed beneficiary, uint256 value, uint256 amount);
 
     modifier validPurchase() {
         bool withinPeriod = (now >= startTime && now <= endTime);
@@ -91,7 +91,7 @@ contract Sale is MultiOwners {
         startTime = _startTime;
 
         minimalEther = 1e16; // 0.01 ether
-        endTime = _startTime + 3 minutes;
+        endTime = _startTime + 28 days;
         weiPerToken = 1e18 / 100e8; // token price
         hardCap = 57142e18;
         softCap = 3350e18;
@@ -133,7 +133,7 @@ contract Sale is MultiOwners {
      * @dev calculate amount
      * @return token amount that we should send to our dear investor
      */
-    function calcAmount(uint256 _value) internal returns (uint256) {
+    function calcAmount(uint256 _value) public constant returns (uint256) {
         uint rate;
 
         if(startTime + 2 days >= now) {
@@ -151,7 +151,7 @@ contract Sale is MultiOwners {
     }
 
     function checkWhitelist(address contributor) internal returns (bool) {
-        if(startTime + 1 minutes < now) {
+        if(startTime + 1 days < now) {
             return true;
         }
         return etherBalances[contributor] + msg.value <= whitelist[contributor];
@@ -172,23 +172,25 @@ contract Sale is MultiOwners {
      * @dev sell token and send to contributor address
      * @param contributor address
      */
-    function buyTokens(address contributor) payable validPurchase {
-        uint256 amount = calcAmount(msg.value);
-        uint256 ethers = msg.value;
+    function buyTokens(address contributor) payable {
+        require(now >= startTime && now <= endTime && msg.value != 0);
 
-        require(checkWhitelist(contributor));
-        require(contributor != 0x0) ;
+        uint256 amount = calcAmount(msg.value);
+
+        require(contributor != 0x0);
+        etherBalances[contributor] += msg.value;
+        require(startTime + 1 days < now || etherBalances[contributor] <= whitelist[contributor]);
+
         require(minimalEther <= msg.value);
-        require(totalEthers + ethers <= hardCap);
-        require(token.totalSupply() + amount <= maximumTokens);
 
         token.mint(contributor, amount);
-        TokenPurchase(0x0, contributor, msg.value, amount);
+        TokenPurchase(contributor, msg.value, amount);
+        require(token.totalSupply() <= maximumTokens);
 
-        if(!softCapReached) {
-            etherBalances[contributor] = etherBalances[contributor] + ethers;
-        } else {
-            totalEthers = totalEthers + ethers;
+        totalEthers += msg.value;
+        require(totalEthers <= hardCap);
+        if (totalEthers > softCap) {
+            wallet.transfer(this.balance);
         }
     }
 
@@ -204,7 +206,7 @@ contract Sale is MultiOwners {
     function withdrawTokenToFounder() public {
         require(token.balanceOf(this) > 0);
         require(softCapReached);
-        require(startTime + 5 minutes < now);
+        require(startTime + 1 years < now);
 
         token.transfer(wallet, token.balanceOf(this));
     }
@@ -228,7 +230,7 @@ contract Sale is MultiOwners {
     // update status (set softCapReached, make available to withdraw ethers to wallet)
     function updateStatus() public {
         // Allow to update only when whitelist stage sale is ended
-        require(startTime + 1 minutes < now);
+        require(startTime + 1 days < now);
 
         if(!softCapReached && this.balance >= softCap) {
             softCapReached = true;

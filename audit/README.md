@@ -4,8 +4,9 @@
 
 Commits
 [c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc),
-[58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6) and
-[609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51).
+[58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6),
+[609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51) and
+[ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7).
 
 <br />
 
@@ -23,6 +24,7 @@ Commits
 * [Recommendations](#recommendations)
   * [First Review Recommendations](#first-review-recommendations)
   * [Second Review Recommendations](#second-review-recommendations)
+  * [Third Review Recommendations](#third-review-recommendations)
 * [Risks](#risks)
 * [Testing](#testing)
   * [Test 1](#test-1)
@@ -105,9 +107,7 @@ Commits
 ### Second Review Recommendations
 
 * **LOW IMPORTANCE** Consider updating the Solidity version number from `^0.4.11` and `^0.4.13` to a recent version
-  * [x] Developer replied that they are planning to use
-    [Solidity flattener](https://github.com/BlockCatIO/solidity-flattener/blob/master/src/solidity_flattener#L56) and
-    the Solidity version in this tool is hard-coded to `^0.4.13`
+  * [x] Updated to `^0.4.15` in [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7)
 * **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing this modifier
 * **LOW IMPORTANCE** In `Sale.calcAmount(...)`, rewrite `return ((_value / weiPerToken) / 100) * rate;` as
   `return (_value * rate / weiPerToken) / 100;` for better precision
@@ -124,6 +124,20 @@ Commits
       Transfer 2 #229: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
       Transfer 3 #229: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
       ...
+
+  * [ ] Fixed in [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7)
+
+<br />
+
+### Third Review Recommendations
+
+* **MEDIUM IMPORTANCE** While the crowdsale contract can be made as safe as possible, it it still a bespoke contract with little testing compared
+  to the hardware wallets or multisig wallets. For this reason, the risk of ETH being stolen or stuck in this contract can be reduced by
+  immediately transferring all ETH contributions to the crowdsale wallet. As there is a `softCap` where refunds will be available to 
+  participants if the `softCap` is not reached, store the ETH in the crowdsale contract until the `softCap` is reached. After this, transfer
+  all ETH balances immediately to the crowdsale wallet using `wallet.transfer(eth.balance);`.
+  
+  For this to occur, the calculation of `softCapReached` will need to be moved into `buyTokens(...)`. And a few other changes need to be made.
 
 <br />
 
