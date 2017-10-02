@@ -215,20 +215,20 @@ From [OpenZeppelin Solidity contracts](https://github.com/OpenZeppelin/zeppelin-
 
 Commit [5cf5036](https://github.com/OpenZeppelin/zeppelin-solidity/commit/5cf503673faea92c1b5c615c3f8358febf06e160).
 
-* [ ] [openzeppelin-code-review/math/SafeMath.md](openzeppelin-code-review/math/SafeMath.md)
-  * [ ] library SafeMath
-* [ ] [openzeppelin-code-review/ownership/Ownable.md](openzeppelin-code-review/ownership/Ownable.md)
-  * [ ] contract Ownable
-* [ ] [openzeppelin-code-review/token/ERC20Basic.md](openzeppelin-code-review/token/ERC20Basic.md)
-  * [ ] contract ERC20Basic 
-* [ ] [openzeppelin-code-review/token/ERC20.md](openzeppelin-code-review/token/ERC20.md)
-  * [ ] contract ERC20 is ERC20Basic 
-* [ ] [openzeppelin-code-review/token/BasicToken.md](openzeppelin-code-review/token/BasicToken.md)
-  * [ ] contract BasicToken is ERC20Basic 
-* [ ] [openzeppelin-code-review/token/StandardToken.md](openzeppelin-code-review/token/StandardToken.md)
-  * [ ] contract StandardToken is ERC20, BasicToken 
-* [ ] [openzeppelin-code-review/token/MintableToken.md](openzeppelin-code-review/token/MintableToken.md)
-  * [ ] contract MintableToken is StandardToken, Ownable 
+* [x] [openzeppelin-code-review/math/SafeMath.md](openzeppelin-code-review/math/SafeMath.md)
+  * [x] library SafeMath
+* [x] [openzeppelin-code-review/ownership/Ownable.md](openzeppelin-code-review/ownership/Ownable.md)
+  * [x] contract Ownable
+* [x] [openzeppelin-code-review/token/ERC20Basic.md](openzeppelin-code-review/token/ERC20Basic.md)
+  * [x] contract ERC20Basic 
+* [x] [openzeppelin-code-review/token/ERC20.md](openzeppelin-code-review/token/ERC20.md)
+  * [x] contract ERC20 is ERC20Basic 
+* [x] [openzeppelin-code-review/token/BasicToken.md](openzeppelin-code-review/token/BasicToken.md)
+  * [x] contract BasicToken is ERC20Basic 
+* [x] [openzeppelin-code-review/token/StandardToken.md](openzeppelin-code-review/token/StandardToken.md)
+  * [x] contract StandardToken is ERC20, BasicToken 
+* [x] [openzeppelin-code-review/token/MintableToken.md](openzeppelin-code-review/token/MintableToken.md)
+  * [x] contract MintableToken is StandardToken, Ownable 
 
 <br />
 
