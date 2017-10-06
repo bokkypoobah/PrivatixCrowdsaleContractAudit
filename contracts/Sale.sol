@@ -46,19 +46,16 @@ contract Sale is MultiOwners {
     mapping(address => uint256) public whitelist;
 
     // bounty tokens
-    uint256 public bountyAvailable;
+    uint256 public bountyReward;
 
     // team tokens
-    uint256 public teamAvailable;
+    uint256 public teamReward;
 
     // founder tokens
-    uint256 public founderAvailable;
-
-    // softcap reached flag
-    bool public softCapReached;
+    uint256 public founderReward;
 
 
-    event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
+    event TokenPurchase(address indexed beneficiary, uint256 value, uint256 amount);
 
     modifier validPurchase() {
         bool withinPeriod = (now >= startTime && now <= endTime);
@@ -122,6 +119,14 @@ contract Sale is MultiOwners {
         whitelist[0x38C0fC6F24013ED3F7887C05f95d17A8883be4bA] = 100e18;
     }
 
+    function hardCapReached() constant public returns (bool) {
+        return ((hardCap * 999) / 1000) <= totalEthers;
+    }
+
+    function softCapReached() constant public returns(bool) {
+        return totalEthers >= softCap;
+    }
+
     /*
      * @dev fallback for processing ether
      */
@@ -131,18 +136,20 @@ contract Sale is MultiOwners {
 
     /*
      * @dev calculate amount
+     * @param  _value - ether to be converted to tokens
+     * @param  at - current time
      * @return token amount that we should send to our dear investor
      */
-    function calcAmount(uint256 _value) internal returns (uint256) {
+    function calcAmountAt(uint256 _value, uint256 at) public constant returns (uint256) {
         uint rate;
 
-        if(startTime + 2 days >= now) {
+        if(startTime + 2 days >= at) {
             rate = 140;
-        } else if(startTime + 7 days >= now) {
+        } else if(startTime + 7 days >= at) {
             rate = 130;
-        } else if(startTime + 14 days >= now) {
+        } else if(startTime + 14 days >= at) {
             rate = 120;
-        } else if(startTime + 21 days >= now) {
+        } else if(startTime + 21 days >= at) {
             rate = 110;
         } else {
             rate = 105;
@@ -150,11 +157,17 @@ contract Sale is MultiOwners {
         return ((_value * rate) / weiPerToken) / 100;
     }
 
-    function checkWhitelist(address contributor) internal returns (bool) {
+    /*
+     * @dev check contributor is whitelisted or not for buy token 
+     * @param contributor
+     * @param amount — how much ethers contributor wants to spend
+     * @return true if access allowed
+     */
+    function checkWhitelist(address contributor, uint256 amount) internal returns (bool) {
         if(startTime + 1 days < now) {
             return true;
         }
-        return etherBalances[contributor] + msg.value <= whitelist[contributor];
+        return etherBalances[contributor] + amount <= whitelist[contributor];
     }
 
 
@@ -173,28 +186,30 @@ contract Sale is MultiOwners {
      * @param contributor address
      */
     function buyTokens(address contributor) payable validPurchase {
-        uint256 amount = calcAmount(msg.value);
-        uint256 ethers = msg.value;
-
-        require(checkWhitelist(contributor));
+        uint256 amount = calcAmountAt(msg.value, block.timestamp);
+  
         require(contributor != 0x0) ;
+        require(checkWhitelist(contributor, msg.value));
         require(minimalEther <= msg.value);
-        require(totalEthers + ethers <= hardCap);
         require(token.totalSupply() + amount <= maximumTokens);
 
         token.mint(contributor, amount);
-        TokenPurchase(0x0, contributor, msg.value, amount);
+        TokenPurchase(contributor, msg.value, amount);
 
-        if(!softCapReached) {
-            etherBalances[contributor] = etherBalances[contributor] + ethers;
+        if(softCapReached()) {
+            totalEthers = totalEthers + msg.value;
+        } else if (this.balance >= softCap) {
+            totalEthers = this.balance;
         } else {
-            totalEthers = totalEthers + ethers;
+            etherBalances[contributor] = etherBalances[contributor] + msg.value;
         }
+
+        require(totalEthers <= hardCap);
     }
 
     // @withdraw to wallet
     function withdraw() public {
-        require(softCapReached);
+        require(softCapReached());
         require(this.balance > 0);
 
         wallet.transfer(this.balance);
@@ -203,7 +218,7 @@ contract Sale is MultiOwners {
     // @withdraw token to wallet
     function withdrawTokenToFounder() public {
         require(token.balanceOf(this) > 0);
-        require(softCapReached);
+        require(softCapReached());
         require(startTime + 1 years < now);
 
         token.transfer(wallet, token.balanceOf(this));
@@ -212,7 +227,7 @@ contract Sale is MultiOwners {
     // @refund to backers, if softCap is not reached
     function refund() isExpired public {
         require(refundAllowed);
-        require(!softCapReached);
+        require(!softCapReached());
         require(etherBalances[msg.sender] > 0);
         require(token.balanceOf(msg.sender) > 0);
  
@@ -221,40 +236,19 @@ contract Sale is MultiOwners {
         etherBalances[msg.sender] = 0;
     }
 
-    function hardCapReached() internal returns (bool) {
-        return ((hardCap * 999) / 1000) <= totalEthers;
-    }
-
-    // update status (set softCapReached, make available to withdraw ethers to wallet)
-    function updateStatus() public {
-        // Allow to update only when whitelist stage sale is ended
-        require(startTime + 1 days < now);
-
-        if(!softCapReached && this.balance >= softCap) {
-            softCapReached = true;
-            totalEthers = this.balance;
-        }
-
-        if(softCapReached) {        
-            bountyAvailable = token.totalSupply() * 3 / 83;
-            teamAvailable = token.totalSupply() * 7 / 83;
-            founderAvailable = token.totalSupply() * 7 / 83;
-        }
-    }
-
     function finishCrowdsale() public {
-        updateStatus();
-
         require(now > endTime || hardCapReached());
         require(!token.mintingFinished());
 
+        bountyReward = token.totalSupply() * 3 / 83; 
+        teamReward = token.totalSupply() * 7 / 83; 
+        founderReward = token.totalSupply() * 7 / 83; 
 
-        if(softCapReached) {
-            token.mint(wallet, bountyAvailable);
-            token.mint(wallet, teamAvailable);
-            token.mint(this, founderAvailable);
+        if(softCapReached()) {
+            token.mint(wallet, bountyReward);
+            token.mint(wallet, teamReward);
+            token.mint(this, founderReward);
 
-            founderAvailable = teamAvailable = bountyAvailable = 0;
             token.finishMinting(true);
         } else {
             refundAllowed = true;

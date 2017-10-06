@@ -170,7 +170,6 @@ contract('Sale', (accounts) => {
         balance1 = (await web3.eth.getBalance(wallet)).toNumber();
         await increaseTime(duration.weeks(2));
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMinEthers});
-        await sale.updateStatus();
         await sale.withdraw();
         balance2 = (await web3.eth.getBalance(wallet)).toNumber();
 
@@ -191,7 +190,6 @@ contract('Sale', (accounts) => {
         await increaseTime(duration.weeks(2));
 
         await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
-        await sale.updateStatus();
 
         await shouldHaveException(async () => {
             await sale.withdraw();
@@ -472,7 +470,8 @@ contract('Sale', (accounts) => {
 
         assert.equal((await sale.running()), true);
         await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers});
-        await sale.updateStatus();
+        let totalEthers = (await sale.totalEthers()).toNumber();
+        assert.equal(totalEthers, testMaxEthers);
 
         assert.equal((await sale.running()), false);
 
@@ -489,6 +488,14 @@ contract('Sale', (accounts) => {
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client, to: sale.address, value: 1e18});
+        }, "Should has an error");
+    });
+
+    it("Donate more then max ether", async () => {
+        await increaseTime(duration.weeks(2));
+
+        await shouldHaveException(async () => {
+            await web3.eth.sendTransaction({from: client, to: sale.address, value: testMaxEthers + 1e18});
         }, "Should has an error");
     });
 

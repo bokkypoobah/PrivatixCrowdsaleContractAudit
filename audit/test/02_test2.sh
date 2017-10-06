@@ -98,7 +98,7 @@ DIFFS1=`diff ../openzeppelin-contracts/token/BasicToken.sol BasicToken.sol`
 echo "--- Differences ../openzeppelin-contracts/token/BasicToken.sol BasicToken.sol ---" | tee -a $TEST2OUTPUT
 echo "$DIFFS1" | tee -a $TEST2OUTPUT
 
-echo "var saleOutput=`solc --optimize --combined-json abi,bin,interface $CROWDSALESOL`;" > $CROWDSALEJS
+echo "var saleOutput=`solc_0.4.16 --optimize --combined-json abi,bin,interface $CROWDSALESOL`;" > $CROWDSALEJS
 
 geth --verbosity 3 attach $GETHATTACHPOINT << EOF | tee -a $TEST2OUTPUT
 loadScript("$CROWDSALEJS");

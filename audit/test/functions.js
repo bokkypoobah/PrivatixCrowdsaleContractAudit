@@ -208,6 +208,7 @@ function printCrowdsaleContractDetails() {
     var contract = eth.contract(crowdsaleContractAbi).at(crowdsaleContractAddress);
     console.log("RESULT: crowdsale.softCap=" + contract.softCap() + " " + contract.softCap().shift(-18));
     console.log("RESULT: crowdsale.hardCap=" + contract.hardCap() + " " + contract.hardCap().shift(-18));
+    console.log("RESULT: crowdsale.totalEthers=" + contract.totalEthers() + " " + contract.totalEthers().shift(-18));
     console.log("RESULT: crowdsale.token=" + contract.token());
     console.log("RESULT: crowdsale.wallet=" + contract.wallet());
     console.log("RESULT: crowdsale.maximumTokens=" + contract.maximumTokens() + " " + contract.maximumTokens().shift(-8));
@@ -216,9 +217,9 @@ function printCrowdsaleContractDetails() {
     console.log("RESULT: crowdsale.startTime=" + contract.startTime() + " " + new Date(contract.startTime() * 1000).toUTCString());
     console.log("RESULT: crowdsale.endTime=" + contract.endTime() + " " + new Date(contract.endTime() * 1000).toUTCString());
     console.log("RESULT: crowdsale.refundAllowed=" + contract.refundAllowed());
-    console.log("RESULT: crowdsale.bountyAvailable=" + contract.bountyAvailable() + " " + contract.bountyAvailable().shift(-8));
-    console.log("RESULT: crowdsale.teamAvailable=" + contract.teamAvailable() + " " + contract.teamAvailable().shift(-8));
-    console.log("RESULT: crowdsale.founderAvailable=" + contract.founderAvailable() + " " + contract.founderAvailable().shift(-8));
+    console.log("RESULT: crowdsale.bountyReward=" + contract.bountyReward() + " " + contract.bountyReward().shift(-8));
+    console.log("RESULT: crowdsale.teamReward=" + contract.teamReward() + " " + contract.teamReward().shift(-8));
+    console.log("RESULT: crowdsale.founderReward=" + contract.founderReward() + " " + contract.founderReward().shift(-8));
     console.log("RESULT: crowdsale.softCapReached=" + contract.softCapReached());
 
     var latestBlock = eth.blockNumber;

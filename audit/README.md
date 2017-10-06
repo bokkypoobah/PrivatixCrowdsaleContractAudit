@@ -5,8 +5,9 @@
 Commits
 [c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc),
 [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6),
-[609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51) and
-[ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7).
+[609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51),
+[ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7) and
+[5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9).
 
 <br />
 
@@ -125,7 +126,7 @@ Commits
       Transfer 3 #229: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
       ...
 
-  * [ ] Fixed in [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7)
+  * [x] Fixed in [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7)
 
 <br />
 

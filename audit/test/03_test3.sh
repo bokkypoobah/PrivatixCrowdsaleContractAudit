@@ -55,7 +55,7 @@ printf "ENDTIME         = '$ENDTIME' '$ENDTIME_S'\n" | tee -a $TEST3OUTPUT
 
 # Make copy of SOL file and modify start and end times ---
 # `cp modifiedContracts/SnipCoin.sol .`
-`cp modifiedContracts/Sale_test.sol .`
+`cp modifiedContracts/Sale_test.sol Sale.sol`
 `cp $SOURCEDIR/$TOKENSOL .`
 `cp $SOURCEDIR/MultiOwners.sol .`
 `cp ../openzeppelin-contracts/math/SafeMath.sol .`
@@ -100,7 +100,7 @@ DIFFS1=`diff ../openzeppelin-contracts/token/BasicToken.sol BasicToken.sol`
 echo "--- Differences ../openzeppelin-contracts/token/BasicToken.sol BasicToken.sol ---" | tee -a $TEST3OUTPUT
 echo "$DIFFS1" | tee -a $TEST3OUTPUT
 
-echo "var saleOutput=`solc --optimize --combined-json abi,bin,interface $CROWDSALESOL`;" > $CROWDSALEJS
+echo "var saleOutput=`solc_0.4.16 --optimize --combined-json abi,bin,interface $CROWDSALESOL`;" > $CROWDSALEJS
 
 geth --verbosity 3 attach $GETHATTACHPOINT << EOF | tee -a $TEST3OUTPUT
 loadScript("$CROWDSALEJS");
