@@ -7,8 +7,8 @@ Source file [../../contracts/MultiOwners.sol](../../contracts/MultiOwners.sol).
 <hr />
 
 ```javascript
-// BK Ok - Consider updating to a recent version
-pragma solidity ^0.4.11;
+// BK Ok
+pragma solidity ^0.4.15;
 
 
 // BK Ok

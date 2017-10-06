@@ -7,8 +7,8 @@ Source file [../../contracts/Token.sol](../../contracts/Token.sol).
 <hr />
 
 ```javascript
-// BK Ok - Consider updating to a recent version
-pragma solidity ^0.4.11;
+// BK Ok
+pragma solidity ^0.4.15;
 
 // BK Ok - Carefully check for new commits between testing and mainnet deployment
 import 'zeppelin-solidity/contracts/token/MintableToken.sol';
@@ -74,14 +74,6 @@ contract Token is MintableToken {
         balances[0x0] += balances[from];
         // BK Ok
         balances[from] = 0;
-    }
-
-    // BK Ok
-    function mint(address contributor, uint256 amount) onlyOwner canMint returns (bool) {
-        // BK Ok
-        Transfer(0x0, contributor, amount);
-        // BK Ok
-        return super.mint(contributor, amount);
     }
 }
 
