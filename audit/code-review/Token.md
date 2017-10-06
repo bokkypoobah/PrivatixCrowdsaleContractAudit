@@ -28,7 +28,6 @@ contract Token is MintableToken {
 
     // BK Ok
     event Burn(address indexed from, uint256 value);
-    // BK NOTE - Consider adding the parameter `bool _transferAllowed` to the TransferAllowed event
     // BK Ok
     event TransferAllowed(bool);
 

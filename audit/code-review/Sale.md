@@ -7,8 +7,8 @@ Source file [../../contracts/Sale.sol](../../contracts/Sale.sol).
 <hr />
 
 ```javascript
-// BK Ok - Consider updating to a recent version
-pragma solidity ^0.4.13;
+// BK Ok
+pragma solidity ^0.4.15;
 
 // BK Ok - Carefully check for new commits between testing and mainnet deployment
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
@@ -73,23 +73,18 @@ contract Sale is MultiOwners {
 
     // bounty tokens
     // BK Ok
-    uint256 public bountyAvailable;
+    uint256 public bountyReward;
 
     // team tokens
     // BK Ok
-    uint256 public teamAvailable;
+    uint256 public teamReward;
 
     // founder tokens
     // BK Ok
-    uint256 public founderAvailable;
-
-    // softcap reached flag
-    // BK Ok
-    bool public softCapReached;
-
+    uint256 public founderReward;
 
     // BK Ok
-    event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
+    event TokenPurchase(address indexed beneficiary, uint256 value, uint256 amount);
 
     // BK Ok
     modifier validPurchase() {
@@ -174,6 +169,18 @@ contract Sale is MultiOwners {
         whitelist[0x38C0fC6F24013ED3F7887C05f95d17A8883be4bA] = 100e18;
     }
 
+    // BK Ok
+    function hardCapReached() constant public returns (bool) {
+        // BK Ok
+        return ((hardCap * 999) / 1000) <= totalEthers;
+    }
+
+    // BK Ok
+    function softCapReached() constant public returns(bool) {
+        // BK Ok
+        return totalEthers >= softCap;
+    }
+
     /*
      * @dev fallback for processing ether
      */
@@ -185,25 +192,23 @@ contract Sale is MultiOwners {
 
     /*
      * @dev calculate amount
+     * @param  _value - ether to be converted to tokens
+     * @param  at - current time
      * @return token amount that we should send to our dear investor
      */
-    // BK NOTE - Only for testing this function:
-    // BK NOTE - * can be marked as constant
-    // BK NOTE - * can be marked as public
-    // BK NOTE - * rename to `calcAmountAt(...)`, add `uint256 at`, replace `now` below with `at`, and when calling, call as 
-    // BK NOTE -   `calcAmountAt(msg.value, block.timestamp)`, then can test the time parameter
-    function calcAmount(uint256 _value) internal returns (uint256) {
+    // BK Ok
+    function calcAmountAt(uint256 _value, uint256 at) public constant returns (uint256) {
         // BK Ok
         uint rate;
 
         // BK Next block Ok
-        if(startTime + 2 days >= now) {
+        if(startTime + 2 days >= at) {
             rate = 140;
-        } else if(startTime + 7 days >= now) {
+        } else if(startTime + 7 days >= at) {
             rate = 130;
-        } else if(startTime + 14 days >= now) {
+        } else if(startTime + 14 days >= at) {
             rate = 120;
-        } else if(startTime + 21 days >= now) {
+        } else if(startTime + 21 days >= at) {
             rate = 110;
         } else {
             rate = 105;
@@ -212,16 +217,21 @@ contract Sale is MultiOwners {
         return ((_value * rate) / weiPerToken) / 100;
     }
 
-    // BK NOTE - Consider adding a parameter `uint256 amount` and calling as `checkWhitelist(contributor, msg.value)`
+    /*
+     * @dev check contributor is whitelisted or not for buy token 
+     * @param contributor
+     * @param amount — how much ethers contributor wants to spend
+     * @return true if access allowed
+     */
     // BK Ok
-    function checkWhitelist(address contributor) internal returns (bool) {
+    function checkWhitelist(address contributor, uint256 amount) internal returns (bool) {
         // BK Ok
         if(startTime + 1 days < now) {
             // BK Ok
             return true;
         }
         // BK Ok
-        return etherBalances[contributor] + msg.value <= whitelist[contributor];
+        return etherBalances[contributor] + amount <= whitelist[contributor];
     }
 
 
@@ -245,44 +255,45 @@ contract Sale is MultiOwners {
     // BK Ok
     function buyTokens(address contributor) payable validPurchase {
         // BK Ok
-        uint256 amount = calcAmount(msg.value);
+        uint256 amount = calcAmountAt(msg.value, block.timestamp);
+  
         // BK Ok
-        uint256 ethers = msg.value;
-
-        // BK Ok
-        require(checkWhitelist(contributor));
-        // BK Ok - The following check should be before the `checkWhitelist(contributor)` check
         require(contributor != 0x0) ;
         // BK Ok
-        require(minimalEther <= msg.value);
+        require(checkWhitelist(contributor, msg.value));
         // BK Ok
-        require(totalEthers + ethers <= hardCap);
+        require(minimalEther <= msg.value);
         // BK Ok
         require(token.totalSupply() + amount <= maximumTokens);
 
         // BK Ok
         token.mint(contributor, amount);
-        // BK Ok
-        TokenPurchase(0x0, contributor, msg.value, amount);
+        // BK Ok - Log event
+        TokenPurchase(contributor, msg.value, amount);
 
-        // BK NOTE - `totalEthers` should be made more consistent
         // BK Ok
-        if(!softCapReached) {
-            // BK NOTE - Keeping track of contributions if soft cap not reached
+        if(softCapReached()) {
             // BK Ok
-            etherBalances[contributor] = etherBalances[contributor] + ethers;
+            totalEthers = totalEthers + msg.value;
+        // BK Ok
+        } else if (this.balance >= softCap) {
+            // BK Ok
+            totalEthers = this.balance;
         // BK Ok
         } else {
             // BK Ok
-            totalEthers = totalEthers + ethers;
+            etherBalances[contributor] = etherBalances[contributor] + msg.value;
         }
+
+        // BK Ok
+        require(totalEthers <= hardCap);
     }
 
     // @withdraw to wallet
     // BK Ok
     function withdraw() public {
         // BK Ok
-        require(softCapReached);
+        require(softCapReached());
         // BK Ok
         require(this.balance > 0);
 
@@ -297,7 +308,7 @@ contract Sale is MultiOwners {
         // BK Ok
         require(token.balanceOf(this) > 0);
         // BK Ok
-        require(softCapReached);
+        require(softCapReached());
         // BK Ok
         require(startTime + 1 years < now);
 
@@ -306,51 +317,38 @@ contract Sale is MultiOwners {
     }
 
     // @refund to backers, if softCap is not reached
+    // BK NOTE - Should restrict 
     function refund() isExpired public {
+        // BK Ok
         require(refundAllowed);
-        require(!softCapReached);
+        // BK Ok
+        require(!softCapReached());
+        // BK Ok
         require(etherBalances[msg.sender] > 0);
+        // BK Ok
         require(token.balanceOf(msg.sender) > 0);
  
+        // BK NOTE - Safer to have this statement after the zeroing of the account's balance
         msg.sender.transfer(etherBalances[msg.sender]);
+        // BK Ok
         token.burn(msg.sender);
+        // BK Ok
         etherBalances[msg.sender] = 0;
     }
 
-    function hardCapReached() internal returns (bool) {
-        return ((hardCap * 999) / 1000) <= totalEthers;
-    }
-
-    // update status (set softCapReached, make available to withdraw ethers to wallet)
-    function updateStatus() public {
-        // Allow to update only when whitelist stage sale is ended
-        require(startTime + 1 days < now);
-
-        if(!softCapReached && this.balance >= softCap) {
-            softCapReached = true;
-            totalEthers = this.balance;
-        }
-
-        if(softCapReached) {        
-            bountyAvailable = token.totalSupply() * 3 / 83;
-            teamAvailable = token.totalSupply() * 7 / 83;
-            founderAvailable = token.totalSupply() * 7 / 83;
-        }
-    }
-
     function finishCrowdsale() public {
-        updateStatus();
-
         require(now > endTime || hardCapReached());
         require(!token.mintingFinished());
 
+        bountyReward = token.totalSupply() * 3 / 83; 
+        teamReward = token.totalSupply() * 7 / 83; 
+        founderReward = token.totalSupply() * 7 / 83; 
 
-        if(softCapReached) {
-            token.mint(wallet, bountyAvailable);
-            token.mint(wallet, teamAvailable);
-            token.mint(this, founderAvailable);
+        if(softCapReached()) {
+            token.mint(wallet, bountyReward);
+            token.mint(wallet, teamReward);
+            token.mint(this, founderReward);
 
-            founderAvailable = teamAvailable = bountyAvailable = 0;
             token.finishMinting(true);
         } else {
             refundAllowed = true;
@@ -359,7 +357,9 @@ contract Sale is MultiOwners {
    }
 
     // @return true if crowdsale event has ended
+    // BK Ok - Not used
     function running() public constant returns (bool) {
+        // BK Ok
         return now >= startTime && !(now > endTime || hardCapReached());
     }
 }

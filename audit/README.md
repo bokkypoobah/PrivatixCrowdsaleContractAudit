@@ -85,7 +85,6 @@ Commits
   totalSupply is 100, bounty%=3, team%=7, founders%=7. totalSupply after allocation is 100+3+7+7=117. bounty=3/117=2.56%, team=founders=7/117=
   5.98%. Is this 2.56%, 5.98% and 5.98% the intended distribution?
   * [x] Developer has updated the code in [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6)
-  * [ ] BK to confirm the calculations are correct
 * **LOW IMPORTANCE** In `Sale.updateStatus()`, rewrite the expressions for the bounty, team and founders allocation calculations for more 
   precision. e.g. `bountyAvailable = token.totalSupply() / 100 * 3;` should be `bountyAvailable = (token.totalSupply() * 3) / 100;`.
   Multiplication before division
@@ -110,6 +109,7 @@ Commits
 * **LOW IMPORTANCE** Consider updating the Solidity version number from `^0.4.11` and `^0.4.13` to a recent version
   * [x] Updated to `^0.4.15` in [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7)
 * **LOW IMPORTANCE** The modifier `Sale.isStarted()` is not used. Consider removing this modifier
+  * [x] Not removed, as it would be useful for viewing the the blockchain explorer
 * **LOW IMPORTANCE** In `Sale.calcAmount(...)`, rewrite `return ((_value / weiPerToken) / 100) * rate;` as
   `return (_value * rate / weiPerToken) / 100;` for better precision
   * [x] Fixed in [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51) 
@@ -145,6 +145,22 @@ Commits
 
 * **LOW IMPORTANCE** In *Sale*, the first parameter `purchaser` of the event `TokenPurchase(...)` is redundant as it will always be 0x0. Consider
   removing this parameter
+
+  * [x] Removed in [5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9)
+
+* **LOW IMPORTANCE** In `Sale.refund()` it is safer to have the `msg.sender.transfer(etherBalances[msg.sender]);` executed after the tokens
+  have been burnt, and `etherBalances[msg.sender] = 0;`. This is because the control flow will be transferred to potentially a malicious contract.
+  In this case the amount of gas provided to the malicious contract will be low, so the damage is limited. But it's always safer to zero the
+  account's balance before transferring control outside the contract.
+
+* **LOW IMPORTANCE** Mark `Sale.withdraw()` and `Sale.withdrawTokenToFounder()` to be executed by `onlyOwner` just to be on the safe side. The 
+  funds and tokens respectively will be transferred to the crowdsale wallet anyway, but there is no harm restricting the use of this function
+
+* **LOW IMPORTANCE** Mark `Sale.finishCrowdsale()` to be executed by `onlyOwner` just to be on the safe side
+
+* **LOW IMPORTANCE** Remove `Sale.running()` as this function is not used
+
+  * [x] Developer explained that this status will be viewable in the blockchain explorers
 
 <br />
 
