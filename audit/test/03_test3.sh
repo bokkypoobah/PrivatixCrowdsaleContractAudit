@@ -55,7 +55,7 @@ printf "ENDTIME         = '$ENDTIME' '$ENDTIME_S'\n" | tee -a $TEST3OUTPUT
 
 # Make copy of SOL file and modify start and end times ---
 # `cp modifiedContracts/SnipCoin.sol .`
-`cp modifiedContracts/Sale_test.sol Sale.sol`
+`cp $SOURCEDIR/$CROWDSALESOL .`
 `cp $SOURCEDIR/$TOKENSOL .`
 `cp $SOURCEDIR/MultiOwners.sol .`
 `cp ../openzeppelin-contracts/math/SafeMath.sol .`

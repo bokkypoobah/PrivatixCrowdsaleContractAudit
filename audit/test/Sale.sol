@@ -88,7 +88,7 @@ contract Sale is MultiOwners {
         startTime = _startTime;
 
         minimalEther = 1e16; // 0.01 ether
-        endTime = _startTime + 3 minutes;
+        endTime = _startTime + 2 minutes;
         weiPerToken = 1e18 / 100e8; // token price
         hardCap = 57142e18;
         softCap = 3350e18;
@@ -219,7 +219,7 @@ contract Sale is MultiOwners {
     function withdrawTokenToFounder() public {
         require(token.balanceOf(this) > 0);
         require(softCapReached());
-        require(startTime + 5 minutes < now);
+        require(startTime + 1 years < now);
 
         token.transfer(wallet, token.balanceOf(this));
     }
