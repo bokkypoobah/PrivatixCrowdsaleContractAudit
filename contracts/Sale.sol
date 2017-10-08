@@ -170,7 +170,6 @@ contract Sale is MultiOwners {
         return etherBalances[contributor] + amount <= whitelist[contributor];
     }
 
-
     /*
      * @dev grant backer until first 24 hours
      * @param contributor address
@@ -208,7 +207,7 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw to wallet
-    function withdraw() public {
+    function withdraw() onlyOwner public {
         require(softCapReached());
         require(this.balance > 0);
 
@@ -216,7 +215,7 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw token to wallet
-    function withdrawTokenToFounder() public {
+    function withdrawTokenToFounder() onlyOwner public {
         require(token.balanceOf(this) > 0);
         require(softCapReached());
         require(startTime + 1 years < now);
@@ -236,7 +235,7 @@ contract Sale is MultiOwners {
         etherBalances[msg.sender] = 0;
     }
 
-    function finishCrowdsale() public {
+    function finishCrowdsale() onlyOwner public {
         require(now > endTime || hardCapReached());
         require(!token.mintingFinished());
 
