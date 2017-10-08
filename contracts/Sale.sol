@@ -229,10 +229,12 @@ contract Sale is MultiOwners {
         require(!softCapReached());
         require(etherBalances[msg.sender] > 0);
         require(token.balanceOf(msg.sender) > 0);
+
+        uint256 current_balance = etherBalances[msg.sender];
+        etherBalances[msg.sender] = 0;
  
         token.burn(msg.sender);
-        msg.sender.transfer(etherBalances[msg.sender]);
-        etherBalances[msg.sender] = 0;
+        msg.sender.transfer(current_balance);
     }
 
     function finishCrowdsale() onlyOwner public {
