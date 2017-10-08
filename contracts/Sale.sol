@@ -230,8 +230,8 @@ contract Sale is MultiOwners {
         require(etherBalances[msg.sender] > 0);
         require(token.balanceOf(msg.sender) > 0);
  
-        msg.sender.transfer(etherBalances[msg.sender]);
         token.burn(msg.sender);
+        msg.sender.transfer(etherBalances[msg.sender]);
         etherBalances[msg.sender] = 0;
     }
 
