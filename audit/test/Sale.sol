@@ -1,13 +1,10 @@
 pragma solidity ^0.4.15;
 
-import './SafeMath.sol';
 import './Token.sol';
 import './MultiOwners.sol';
 
 
 contract Sale is MultiOwners {
-    using SafeMath for uint256;
-
     // Minimal possible cap in ethers
     uint256 public softCap;
 
@@ -88,7 +85,7 @@ contract Sale is MultiOwners {
         startTime = _startTime;
 
         minimalEther = 1e16; // 0.01 ether
-        endTime = _startTime + 3 minutes;
+        endTime = _startTime + 2 minutes;
         weiPerToken = 1e18 / 100e8; // token price
         hardCap = 57142e18;
         softCap = 3350e18;
@@ -174,7 +171,7 @@ contract Sale is MultiOwners {
      * @dev grant backer until first 24 hours
      * @param contributor address
      */
-    function addWhitelist(address contributor, uint256 amount) onlyOwner returns (bool) {
+    function addWhitelist(address contributor, uint256 amount) onlyOwner public returns (bool) {
         whitelist[contributor] = amount;
         return true;
     }
@@ -184,7 +181,7 @@ contract Sale is MultiOwners {
      * @dev sell token and send to contributor address
      * @param contributor address
      */
-    function buyTokens(address contributor) payable validPurchase {
+    function buyTokens(address contributor) payable validPurchase public {
         uint256 amount = calcAmountAt(msg.value, block.timestamp);
   
         require(contributor != 0x0) ;
@@ -218,7 +215,7 @@ contract Sale is MultiOwners {
     function withdrawTokenToFounder() onlyOwner public {
         require(token.balanceOf(this) > 0);
         require(softCapReached());
-        require(startTime + 5 minutes < now);
+        require(startTime + 1 years < now);
 
         token.transfer(wallet, token.balanceOf(this));
     }

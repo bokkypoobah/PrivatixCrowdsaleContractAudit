@@ -14,8 +14,9 @@ This audit has been conducted on Privatix's source code in commits
 [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51),
 [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7),
 [5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9),
-[fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511) and
-[e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92).
+[fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511),
+[e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92) and
+[f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842).
 
 No potential vulnerabilities have been identified in the crowdsale and token contract.
 
@@ -229,6 +230,10 @@ compliant with the following features:
 * **LOW IMPORTANCE** `Sale.addWhitelist(...)` and `Sale.buyTokens(...)` should be marked as `public` but this is the default anyway
 
   * [x] Fixed in [e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92)
+
+* **LOW IMPORTANCE** `SafeMath` is not used in *Sale*
+
+  * [x] Fixed in [f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842)
 
 <br />
 

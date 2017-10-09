@@ -10,8 +10,6 @@ Source file [../../contracts/Sale.sol](../../contracts/Sale.sol).
 // BK Ok
 pragma solidity ^0.4.15;
 
-// BK Ok - Carefully check for new commits between testing and mainnet deployment
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 // BK Next 2 Ok
 import './Token.sol';
 import './MultiOwners.sol';
@@ -19,9 +17,6 @@ import './MultiOwners.sol';
 
 // BK Ok
 contract Sale is MultiOwners {
-    // BK Ok
-    using SafeMath for uint256;
-
     // Minimal possible cap in ethers
     // BK Ok
     uint256 public softCap;
