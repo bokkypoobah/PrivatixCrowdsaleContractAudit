@@ -240,7 +240,7 @@ contract Sale is MultiOwners {
      * @param contributor address
      */
     // BK Ok - Only owner can execute
-    function addWhitelist(address contributor, uint256 amount) onlyOwner returns (bool) {
+    function addWhitelist(address contributor, uint256 amount) onlyOwner public returns (bool) {
         // BK Ok
         whitelist[contributor] = amount;
         // BK Ok
@@ -253,7 +253,7 @@ contract Sale is MultiOwners {
      * @param contributor address
      */
     // BK Ok - Payable, should mark as public but this is the default anyway
-    function buyTokens(address contributor) payable validPurchase {
+    function buyTokens(address contributor) payable validPurchase public {
         // BK Ok
         uint256 amount = calcAmountAt(msg.value, block.timestamp);
   
