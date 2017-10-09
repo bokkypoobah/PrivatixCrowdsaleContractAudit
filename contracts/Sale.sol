@@ -1,13 +1,10 @@
 pragma solidity ^0.4.15;
 
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import './Token.sol';
 import './MultiOwners.sol';
 
 
 contract Sale is MultiOwners {
-    using SafeMath for uint256;
-
     // Minimal possible cap in ethers
     uint256 public softCap;
 
