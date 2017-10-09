@@ -174,7 +174,7 @@ contract Sale is MultiOwners {
      * @dev grant backer until first 24 hours
      * @param contributor address
      */
-    function addWhitelist(address contributor, uint256 amount) onlyOwner returns (bool) {
+    function addWhitelist(address contributor, uint256 amount) onlyOwner public returns (bool) {
         whitelist[contributor] = amount;
         return true;
     }
@@ -184,7 +184,7 @@ contract Sale is MultiOwners {
      * @dev sell token and send to contributor address
      * @param contributor address
      */
-    function buyTokens(address contributor) payable validPurchase {
+    function buyTokens(address contributor) payable validPurchase public {
         uint256 amount = calcAmountAt(msg.value, block.timestamp);
   
         require(contributor != 0x0) ;
