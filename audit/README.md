@@ -6,8 +6,9 @@ Commits
 [c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc),
 [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6),
 [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51),
-[ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7) and
-[5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9).
+[ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7),
+[5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9) and
+[fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511).
 
 <br />
 
@@ -153,14 +154,24 @@ Commits
   In this case the amount of gas provided to the malicious contract will be low, so the damage is limited. But it's always safer to zero the
   account's balance before transferring control outside the contract.
 
+  * [x] Fixed in [fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511)
+
 * **LOW IMPORTANCE** Mark `Sale.withdraw()` and `Sale.withdrawTokenToFounder()` to be executed by `onlyOwner` just to be on the safe side. The 
   funds and tokens respectively will be transferred to the crowdsale wallet anyway, but there is no harm restricting the use of this function
 
+  * [x] Fixed in [fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511)
+
 * **LOW IMPORTANCE** Mark `Sale.finishCrowdsale()` to be executed by `onlyOwner` just to be on the safe side
+
+  * [x] Fixed in [fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511)
 
 * **LOW IMPORTANCE** Remove `Sale.running()` as this function is not used
 
   * [x] Developer explained that this status will be viewable in the blockchain explorers
+
+* **LOW IMPORTANCE** `Sale.addWhitelist(...)` and `Sale.buyTokens(...)` should be marked as `public` but this is the default anyway
+
+  * [x] Leaving it to the developer to update if they want to, as this is not important
 
 <br />
 
@@ -218,8 +229,8 @@ in [test/test2results.txt](test/test2results.txt) and the detailed output saved 
 
 * [x] [code-review/MultiOwners.md](code-review/MultiOwners.md)
   * [x] contract MultiOwners 
-* [ ] [code-review/Sale.md](code-review/Sale.md)
-  * [ ] contract Sale is MultiOwners 
+* [x] [code-review/Sale.md](code-review/Sale.md)
+  * [x] contract Sale is MultiOwners 
 * [x] [code-review/Token.md](code-review/Token.md)
   * [x] contract Token is MintableToken 
 

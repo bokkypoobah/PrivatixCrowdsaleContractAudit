@@ -88,7 +88,7 @@ contract Sale is MultiOwners {
         startTime = _startTime;
 
         minimalEther = 1e16; // 0.01 ether
-        endTime = _startTime + 2 minutes;
+        endTime = _startTime + 3 minutes;
         weiPerToken = 1e18 / 100e8; // token price
         hardCap = 57142e18;
         softCap = 3350e18;
@@ -170,7 +170,6 @@ contract Sale is MultiOwners {
         return etherBalances[contributor] + amount <= whitelist[contributor];
     }
 
-
     /*
      * @dev grant backer until first 24 hours
      * @param contributor address
@@ -208,7 +207,7 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw to wallet
-    function withdraw() public {
+    function withdraw() onlyOwner public {
         require(softCapReached());
         require(this.balance > 0);
 
@@ -216,10 +215,10 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw token to wallet
-    function withdrawTokenToFounder() public {
+    function withdrawTokenToFounder() onlyOwner public {
         require(token.balanceOf(this) > 0);
         require(softCapReached());
-        require(startTime + 1 years < now);
+        require(startTime + 5 minutes < now);
 
         token.transfer(wallet, token.balanceOf(this));
     }
@@ -230,13 +229,15 @@ contract Sale is MultiOwners {
         require(!softCapReached());
         require(etherBalances[msg.sender] > 0);
         require(token.balanceOf(msg.sender) > 0);
- 
-        msg.sender.transfer(etherBalances[msg.sender]);
-        token.burn(msg.sender);
+
+        uint256 current_balance = etherBalances[msg.sender];
         etherBalances[msg.sender] = 0;
+ 
+        token.burn(msg.sender);
+        msg.sender.transfer(current_balance);
     }
 
-    function finishCrowdsale() public {
+    function finishCrowdsale() onlyOwner public {
         require(now > endTime || hardCapReached());
         require(!token.mintingFinished());
 

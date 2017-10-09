@@ -35,6 +35,7 @@ addAccount("0x995516bb1458fa7b192Bb4Bab0635Fc9Ab447FD1", "Test 14");
 addAccount("0x95a7BEf91A5512d954c721ccbd6fC5402667FaDe", "Test 15");
 addAccount("0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b", "Test 16");
 addAccount("0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F", "Test 17");
+addAccount("0x0000000000000000000000000000000000000000", "Burn");
 
 var minerAccount = eth.accounts[0];
 var contractOwnerAccount = eth.accounts[1];

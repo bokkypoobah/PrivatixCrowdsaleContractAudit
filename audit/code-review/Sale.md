@@ -100,7 +100,7 @@ contract Sale is MultiOwners {
         _;        
     }
 
-    // BK Ok - Not used
+    // BK Ok - Not used in code but can be queried from blockchain explorers
     modifier isStarted() {
         // BK Ok
         require(now >= startTime);
@@ -169,13 +169,13 @@ contract Sale is MultiOwners {
         whitelist[0x38C0fC6F24013ED3F7887C05f95d17A8883be4bA] = 100e18;
     }
 
-    // BK Ok
+    // BK Ok - Constant function
     function hardCapReached() constant public returns (bool) {
         // BK Ok
         return ((hardCap * 999) / 1000) <= totalEthers;
     }
 
-    // BK Ok
+    // BK Ok - Constant function
     function softCapReached() constant public returns(bool) {
         // BK Ok
         return totalEthers >= softCap;
@@ -184,7 +184,7 @@ contract Sale is MultiOwners {
     /*
      * @dev fallback for processing ether
      */
-    // BK Ok
+    // BK Ok - Fallback function marked as payable
     function() payable {
         // BK Ok
         return buyTokens(msg.sender);
@@ -196,7 +196,7 @@ contract Sale is MultiOwners {
      * @param  at - current time
      * @return token amount that we should send to our dear investor
      */
-    // BK Ok
+    // BK Ok - Constant function
     function calcAmountAt(uint256 _value, uint256 at) public constant returns (uint256) {
         // BK Ok
         uint rate;
@@ -223,7 +223,7 @@ contract Sale is MultiOwners {
      * @param amount — how much ethers contributor wants to spend
      * @return true if access allowed
      */
-    // BK Ok
+    // BK Ok - Internal function
     function checkWhitelist(address contributor, uint256 amount) internal returns (bool) {
         // BK Ok
         if(startTime + 1 days < now) {
@@ -239,7 +239,7 @@ contract Sale is MultiOwners {
      * @dev grant backer until first 24 hours
      * @param contributor address
      */
-    // BK Ok
+    // BK Ok - Only owner can execute
     function addWhitelist(address contributor, uint256 amount) onlyOwner returns (bool) {
         // BK Ok
         whitelist[contributor] = amount;
@@ -252,7 +252,7 @@ contract Sale is MultiOwners {
      * @dev sell token and send to contributor address
      * @param contributor address
      */
-    // BK Ok
+    // BK Ok - Payable, should mark as public but this is the default anyway
     function buyTokens(address contributor) payable validPurchase {
         // BK Ok
         uint256 amount = calcAmountAt(msg.value, block.timestamp);
@@ -271,15 +271,15 @@ contract Sale is MultiOwners {
         // BK Ok - Log event
         TokenPurchase(contributor, msg.value, amount);
 
-        // BK Ok
+        // BK Ok - If softCap already reached
         if(softCapReached()) {
             // BK Ok
             totalEthers = totalEthers + msg.value;
-        // BK Ok
+        // BK Ok - If softCap not already reached, but just reached
         } else if (this.balance >= softCap) {
             // BK Ok
             totalEthers = this.balance;
-        // BK Ok
+        // BK Ok - If softCap not reached, store contributions in case of refunds
         } else {
             // BK Ok
             etherBalances[contributor] = etherBalances[contributor] + msg.value;
@@ -290,8 +290,8 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw to wallet
-    // BK Ok
-    function withdraw() public {
+    // BK Ok - Only owner can execute, after softCap reached
+    function withdraw() onlyOwner public {
         // BK Ok
         require(softCapReached());
         // BK Ok
@@ -302,9 +302,8 @@ contract Sale is MultiOwners {
     }
 
     // @withdraw token to wallet
-    // BK NOTE - Only can only withdraw tokens after 1 year
-    // BK Ok
-    function withdrawTokenToFounder() public {
+    // BK Ok - Only owner can only execute after 1 year to withdraw tokens
+    function withdrawTokenToFounder() onlyOwner public {
         // BK Ok
         require(token.balanceOf(this) > 0);
         // BK Ok
@@ -327,37 +326,50 @@ contract Sale is MultiOwners {
         require(etherBalances[msg.sender] > 0);
         // BK Ok
         require(token.balanceOf(msg.sender) > 0);
+
+        // BK Ok
+        uint256 current_balance = etherBalances[msg.sender];
+        // BK Ok
+        etherBalances[msg.sender] = 0;
  
-        // BK NOTE - Safer to have this statement after the zeroing of the account's balance
-        msg.sender.transfer(etherBalances[msg.sender]);
         // BK Ok
         token.burn(msg.sender);
         // BK Ok
-        etherBalances[msg.sender] = 0;
+        msg.sender.transfer(current_balance);
     }
 
-    function finishCrowdsale() public {
+    // BK Ok - Only owner can execute, after crowdsale OR hardCap reached
+    function finishCrowdsale() onlyOwner public {
+        // BK Ok
         require(now > endTime || hardCapReached());
+        // BK Ok
         require(!token.mintingFinished());
 
+        // BK Next block Ok
         bountyReward = token.totalSupply() * 3 / 83; 
         teamReward = token.totalSupply() * 7 / 83; 
         founderReward = token.totalSupply() * 7 / 83; 
 
+        // BK Ok
         if(softCapReached()) {
+            // BK Ok
             token.mint(wallet, bountyReward);
             token.mint(wallet, teamReward);
             token.mint(this, founderReward);
 
+            // BK Ok - Transfers enabled
             token.finishMinting(true);
+        // BK Ok - softCap not reached, refund mode
         } else {
+            // BK Ok
             refundAllowed = true;
+            // BK Ok - Transfers disabled
             token.finishMinting(false);
         }
    }
 
     // @return true if crowdsale event has ended
-    // BK Ok - Not used
+    // BK Ok - Not used, but status can be viewed in blockchain explorers
     function running() public constant returns (bool) {
         // BK Ok
         return now >= startTime && !(now > endTime || hardCapReached());
