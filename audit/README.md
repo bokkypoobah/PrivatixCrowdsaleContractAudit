@@ -1,20 +1,72 @@
 # Privatix Crowdsale Contract Audit
 
-[https://privatix.io/](https://privatix.io/).
+<br />
 
-Commits
+## Summary
+
+[Privatix](https://privatix.io/) intends to run a [crowdsale](https://privatix.io/#tokenSale) commencing on October 19 2017.
+
+Bok Consulting Pty Ltd was commissioned to perform an audit on the Ethereum smart contracts for Privatix's crowdsale and token contract.
+
+This audit has been conducted on Privatix's source code in commits
 [c2f6d3d](https://github.com/Privatix/smart-contract/commit/c2f6d3d88f66eeb3f1c88cb76550e9a93ae387fc),
 [58152e4](https://github.com/Privatix/smart-contract/commit/58152e4759a61c86448008376345aa72bc3cd4c6),
 [609c861](https://github.com/Privatix/smart-contract/commit/609c86107087823ffd678bcc1fcebba917f79a51),
 [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7),
-[5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9) and
-[fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511).
+[5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9),
+[fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511) and
+[e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92).
+
+No potential vulnerabilities have been identified in the crowdsale and token contract.
 
 <br />
 
-<hr />
+### Crowdsale Mainnet Addresses
 
-## Summary
+`TBA`
+
+<br />
+
+<br />
+
+### Crowdsale Contract
+
+The *Sale* crowdsale contract will accept ethers (ETH) from Ethereum accounts sending ETH.
+
+There is an initial 1 day period when accounts contributing to the crowdsale contract have to be whitelisted before
+these contributions are accepted by the crowdsale contract. After this period, there is no check for whitelisted
+accounts.
+
+The rate of tokens generated per ETH will vary according to the time of contribution.
+
+ETH contributed by participants to the *Sale* crowdsale contract will result in PRIX tokens being allocated to the
+participant's account in the token contract. The contributed ETHs are held in the crowdsale contract but the developer
+has stated that they will periodically transfer the ETH into the crowdsale `wallet` after the softcap is reached. This
+is to minimise the risk of loss of ETHs in this bespoke smart contract if a unforseen vulnerability is exploited.
+
+The crowdsale contract will generate `Transfer(0x0, participantAddress, tokens)` events during the crowdsale period and this
+event is used by token explorers to recognise the token contract and to display the ongoing token minting progress.
+
+The tokens generated in the crowdsale process will not be transferable until after the crowdsale is finalised, and the
+softcap is reached. If the softcap is not reached, the tokens will not be transferable, but participants will be able to
+execute the `Sale.refund()` function to burn their tokens in exchange for their originally contributed ETH.
+
+<br />
+
+### Token Contract
+
+The token contract is built upon the OpenZeppelin library.
+
+The token contract is [ERC20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md)
+compliant with the following features:
+
+* `decimals` is correctly defined as `uint8` instead of `uint256`
+* `transfer(...)` and `transferFrom(...)` will generally throw if there is an error instead of returning false
+* `transfer(...)` and `transferFrom(...)` will successfuly execute if 0 tokens are transferred
+* `transfer(...)` and `transferFrom(...)` have not been built with a check on the size of the data being passed (and this 
+  check is not an effective check anyway - see
+  [Smart Contract Short Address Attack Mitigation Failure](https://blog.coinfabrik.com/smart-contract-short-address-attack-mitigation-failure/))
+* `approve(...)` does not require that a non-zero approval limit be set to 0 before a new non-zero limit can be set
 
 <br />
 
@@ -27,9 +79,14 @@ Commits
   * [First Review Recommendations](#first-review-recommendations)
   * [Second Review Recommendations](#second-review-recommendations)
   * [Third Review Recommendations](#third-review-recommendations)
+* [Potential Vulnerabilities](#potential-vulnerabilities)
+* [Scope](#scope)
+* [Limitations](#limitations)
+* [Due Diligence](#due-diligence)
 * [Risks](#risks)
 * [Testing](#testing)
-  * [Test 1](#test-1)
+  * [Test 1 Successful Crowdsale](#test-1-successful-crowdsale)
+  * [Test 2 Refunds](#test-2-refunds)
 * [Code Review](#code-review)
 
 <br />
@@ -171,13 +228,63 @@ Commits
 
 * **LOW IMPORTANCE** `Sale.addWhitelist(...)` and `Sale.buyTokens(...)` should be marked as `public` but this is the default anyway
 
-  * [x] Leaving it to the developer to update if they want to, as this is not important
+  * [x] Fixed in [e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92)
+
+<br />
+
+<hr />
+
+## Potential Vulnerabilities
+
+No potential vulnerabilities have been identified in the crowdsale and token contract.
+
+<br />
+
+<hr />
+
+## Scope
+
+This audit is into the technical aspects of the crowdsale contracts. The primary aim of this audit is to ensure that funds
+contributed to these contracts are not easily attacked or stolen by third parties. The secondary aim of this audit is that
+ensure the coded algorithms work as expected. This audit does not guarantee that that the code is bugfree, but intends to
+highlight any areas of weaknesses.
+
+<br />
+
+<hr />
+
+## Limitations
+
+This audit makes no statements or warranties about the viability of the Privatix's business proposition, the individuals
+involved in this business or the regulatory regime for the business model.
+
+<br />
+
+<hr />
+
+## Due Diligence
+
+As always, potential participants in any crowdsale are encouraged to perform their due diligence on the business proposition
+before funding any crowdsales.
+
+Potential participants are also encouraged to only send their funds to the official crowdsale Ethereum address, published on
+the crowdsale beneficiary's official communication channel.
+
+Scammers have been publishing phishing address in the forums, twitter and other communication channels, and some go as far as
+duplicating crowdsale websites. Potential participants should NOT just click on any links received through these messages.
+Scammers have also hacked the crowdsale website to replace the crowdsale contract address with their scam address.
+ 
+Potential participants should also confirm that the verified source code on EtherScan.io for the published crowdsale address
+matches the audited source code, and that the deployment parameters are correctly set, including the constant parameters.
 
 <br />
 
 <hr />
 
 ## Risks
+
+* The risk of funds getting stolen or hacked from the *Sale* contract can be minimised if the crowdsale administrators 
+  regularly transfer out any accummulated ETH in the crowdsale contract, after the softCap is reached.
 
 <br />
 
@@ -190,7 +297,7 @@ Note that this testing uses the OpenZeppelin library commit
 
 <br />
 
-### Test 1
+### Test 1 Successful Crowdsale
 
 The following functions were tested using the script [test/01_test1.sh](test/01_test1.sh) with the summary results saved
 in [test/test1results.txt](test/test1results.txt) and the detailed output saved in [test/test1output.txt](test/test1output.txt):
@@ -209,7 +316,7 @@ in [test/test1results.txt](test/test1results.txt) and the detailed output saved 
 
 <br />
 
-### Test 2
+### Test 2 Refunds
 
 The following functions were tested using the script [test/02_test2.sh](test/02_test2.sh) with the summary results saved
 in [test/test2results.txt](test/test2results.txt) and the detailed output saved in [test/test2output.txt](test/test2output.txt):
@@ -274,3 +381,8 @@ The following contracts are for testing and the testing framework:
 * [ ] [../contracts/Migrations.sol](../contracts/Migrations.sol)
   * [ ] contract Migrations 
 
+<br />
+
+<br />
+
+(c) BokkyPooBah / Bok Consulting Pty Ltd for Privatix - Oct 9 2017. The MIT Licence.
