@@ -53,11 +53,11 @@ contract Sale is MultiOwners {
 
 
     event TokenPurchase(address indexed beneficiary, uint256 value, uint256 amount);
+    event Whitelist(address indexed beneficiary, uint256 value);
 
-    modifier validPurchase() {
-        bool withinPeriod = (now >= startTime && now <= endTime);
+    modifier validPurchase(address contributor) {
+        bool withinPeriod = ((now >= startTime || checkWhitelist(contributor, msg.value)) && now <= endTime);
         bool nonZeroPurchase = msg.value != 0;
-
         require(withinPeriod && nonZeroPurchase);
 
         _;        
@@ -113,7 +113,29 @@ contract Sale is MultiOwners {
         maximumTokens = token.totalSupply() + 8000000e8;
 
         // Also we like KYC
-        whitelist[0x38C0fC6F24013ED3F7887C05f95d17A8883be4bA] = 100e18;
+        whitelist[0xBd7dC4B22BfAD791Cd5d39327F676E0dC3c0C2D0] = 2000 ether;
+        whitelist[0xebAd12E50aDBeb3C7b72f4a877bC43E7Ec03CD60] = 200 ether;
+        whitelist[0xcFC9315cee88e5C650b5a97318c2B9F632af6547] = 200 ether;
+        whitelist[0xC6318573a1Eb70B7B3d53F007d46fcEB3CFcEEaC] = 200 ether;
+        whitelist[0x9d4096117d7FFCaD8311A1522029581D7BF6f008] = 150 ether;
+        whitelist[0xfa99b733fc996174CE1ef91feA26b15D2adC3E31] = 100 ether;
+        whitelist[0xdbb70fbedd2661ef3b6bdf0c105e62fd1c61da7c] = 100 ether;
+        whitelist[0xa16fd60B82b81b4374ac2f2734FF0da78D1CEf3f] = 100 ether;
+        whitelist[0x8c950B58dD54A54E90D9c8AD8bE87B10ad30B59B] = 100 ether;
+        whitelist[0x5c32Bd73Afe16b3De78c8Ce90B64e569792E9411] = 100 ether;
+        whitelist[0x4Daf690A5F8a466Cb49b424A776aD505d2CD7B7d] = 100 ether;
+        whitelist[0x3da7486DF0F343A0E6AF8D26259187417ed08EC9] = 100 ether;
+        whitelist[0x3ac05aa1f06e930640c485a86a831750a6c2275e] = 100 ether;
+        whitelist[0x009e02b21aBEFc7ECC1F2B11700b49106D7D552b] = 100 ether;
+        whitelist[0xCD540A0cC5260378fc818CA815EC8B22F966C0af] = 85 ether;
+        whitelist[0x6e8b688CB562a028E5D9Cb55ac1eE43c22c96995] = 60 ether;
+        whitelist[0xe6D62ec63852b246d3D348D4b3754e0E72F67df4] = 50 ether;
+        whitelist[0xE127C0c9A2783cBa017a835c34D7AF6Ca602c7C2] = 50 ether;
+        whitelist[0xD933d531D354Bb49e283930743E0a473FC8099Df] = 50 ether;
+        whitelist[0x8c3C524A2be451A670183Ee4A2415f0d64a8f1ae] = 50 ether;
+        whitelist[0x7e0fb316Ac92b67569Ed5bE500D9A6917732112f] = 50 ether;
+        whitelist[0x738C090D87f6539350f81c0229376e4838e6c363] = 50 ether;
+        // anothers KYC will be added using addWhitelists
     }
 
     function hardCapReached() constant public returns (bool) {
@@ -161,9 +183,6 @@ contract Sale is MultiOwners {
      * @return true if access allowed
      */
     function checkWhitelist(address contributor, uint256 amount) internal returns (bool) {
-        if(startTime + 1 days < now) {
-            return true;
-        }
         return etherBalances[contributor] + amount <= whitelist[contributor];
     }
 
@@ -172,20 +191,38 @@ contract Sale is MultiOwners {
      * @param contributor address
      */
     function addWhitelist(address contributor, uint256 amount) onlyOwner public returns (bool) {
+        Whitelist(contributor, amount);
         whitelist[contributor] = amount;
         return true;
     }
 
 
     /*
+     * @dev grant backers until first 24 hours
+     * @param contributor address
+     */
+    function addWhitelists(address[] contributors, uint256[] amounts) onlyOwner public returns (bool) {
+        address contributor;
+        uint256 amount;
+
+        require(contributors.length == amounts.length);
+
+        for (uint i = 0; i < contributors.length; i++) {
+            contributor = contributors[i];
+            amount = amounts[i];
+            require(addWhitelist(contributor, amount));
+        }
+        return true;
+    }
+
+    /*
      * @dev sell token and send to contributor address
      * @param contributor address
      */
-    function buyTokens(address contributor) payable validPurchase public {
+    function buyTokens(address contributor) payable validPurchase(contributor) public {
         uint256 amount = calcAmountAt(msg.value, block.timestamp);
   
         require(contributor != 0x0) ;
-        require(checkWhitelist(contributor, msg.value));
         require(minimalEther <= msg.value);
         require(token.totalSupply() + amount <= maximumTokens);
 
