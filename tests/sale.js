@@ -350,10 +350,10 @@ contract('Sale', (accounts) => {
     });
 
     it("addWhitelist → test add new address to whitelist", async() => {
-        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(6));
 
         await shouldHaveException(async () => {
-            await web3.eth.sendTransaction();
+            await web3.eth.sendTransaction({from: client, to: sale.address, value: 100e18});
         }, "Should has an error");
 
         await sale.addWhitelist(client, 100e18, {from: owner});
@@ -361,19 +361,21 @@ contract('Sale', (accounts) => {
     });
 
     it("whitelist → test fund on 24 stage from whitelisting address", async() => {
-        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(6));
+        await sale.addWhitelist(client_wl, 100e18, {from: owner});
         await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
     });
 
     it("whitelist → test fund on 24 stage from whitelisting address, set new limit and fund again", async() => {
-        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(6));
+        await sale.addWhitelist(client_wl, 100e18, {from: owner});
         await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
         }, "Should has an error");
 
-        await sale.addWhitelist(client_wl, 200e18);
+        await sale.addWhitelist(client_wl, 200e18, {from: owner});
 
         await web3.eth.sendTransaction({from: client_wl, to: sale.address, value: 100e18});
 
@@ -383,7 +385,7 @@ contract('Sale', (accounts) => {
     });
 
     it("whitelist → test fund on 24 stage from not whitelisting address", async() => {
-        await increaseTime(duration.weeks(1));
+        await increaseTime(duration.days(6));
 
         await shouldHaveException(async () => {
             await web3.eth.sendTransaction({from: client, to: sale.address, value: 100e18});

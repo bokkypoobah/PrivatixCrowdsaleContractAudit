@@ -1,5 +1,7 @@
 # Privatix Crowdsale Contract Audit
 
+TODO: Test the latest commit.
+
 <br />
 
 ## Summary
@@ -15,8 +17,9 @@ This audit has been conducted on Privatix's source code in commits
 [ce37920](https://github.com/Privatix/smart-contract/commit/ce37920852e289ba26543bc9316075c9a66cdad7),
 [5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9),
 [fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511),
-[e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92) and
-[f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842).
+[e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92),
+[f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842) and
+[15001fe](https://github.com/Privatix/smart-contract/commit/15001fe2b2cf7094003db9b57db6d038602900a7).
 
 No potential vulnerabilities have been identified in the crowdsale and token contract.
 
