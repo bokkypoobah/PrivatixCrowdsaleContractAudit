@@ -148,6 +148,28 @@ function assertEtherBalance(account, expectedBalance) {
   }
 }
 
+function failIfTxStatusError(tx, msg) {
+  var status = eth.getTransactionReceipt(tx).status;
+  if (status == 0) {
+    console.log("RESULT: FAIL " + msg);
+    return 0;
+  } else {
+    console.log("RESULT: PASS " + msg);
+    return 1;
+  }
+}
+
+function passIfTxStatusError(tx, msg) {
+  var status = eth.getTransactionReceipt(tx).status;
+  if (status == 1) {
+    console.log("RESULT: FAIL " + msg);
+    return 0;
+  } else {
+    console.log("RESULT: PASS " + msg);
+    return 1;
+  }
+}
+
 function gasEqualsGasUsed(tx) {
   var gas = eth.getTransaction(tx).gas;
   var gasUsed = eth.getTransactionReceipt(tx).gasUsed;

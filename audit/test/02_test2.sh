@@ -153,7 +153,7 @@ while (txpool.status.pending > 0) {
 
 printTxData("saleAddress=" + saleAddress, saleTx);
 printBalances();
-failIfGasEqualsGasUsed(saleTx, saleMessage);
+failIfTxStatusError(saleTx, saleMessage);
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -170,8 +170,8 @@ while (txpool.status.pending > 0) {
 printTxData("whitelist1Tx", whitelist1Tx);
 // printTxData("whitelist2Tx", whitelist2Tx);
 printBalances();
-failIfGasEqualsGasUsed(whitelist1Tx, whitelistMessage + " - ac3 Whitelist");
-// failIfGasEqualsGasUsed(whitelist2Tx, whitelistMessage + " - ac4 Whitelist Capped");
+failIfTxStatusError(whitelist1Tx, whitelistMessage + " - ac3 Whitelist");
+// failIfTxStatusError(whitelist2Tx, whitelistMessage + " - ac4 Whitelist Capped");
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -210,8 +210,8 @@ while (txpool.status.pending > 0) {
 printTxData("sendContribution4_1Tx", sendContribution4_1Tx);
 printTxData("sendContribution4_2Tx", sendContribution4_2Tx);
 printBalances();
-failIfGasEqualsGasUsed(sendContribution4_1Tx, sendContribution4Message + " - ac3 10 ETH = 1,400 PRIX");
-failIfGasEqualsGasUsed(sendContribution4_2Tx, sendContribution4Message + " - ac4 10 ETH = 1,400 PRIX");
+failIfTxStatusError(sendContribution4_1Tx, sendContribution4Message + " - ac3 10 ETH = 1,400 PRIX");
+failIfTxStatusError(sendContribution4_2Tx, sendContribution4Message + " - ac4 10 ETH = 1,400 PRIX");
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -241,9 +241,9 @@ printTxData("finishCrowdsale1_1Tx", finishCrowdsale1_1Tx);
 printTxData("finishCrowdsale1_2Tx", finishCrowdsale1_2Tx);
 printTxData("finishCrowdsale1_3Tx", finishCrowdsale1_3Tx);
 printBalances();
-failIfGasEqualsGasUsed(finishCrowdsale1_1Tx, finishCrowdsaleMessage + " - Finish Crowdsale");
-passIfGasEqualsGasUsed(finishCrowdsale1_2Tx, finishCrowdsaleMessage + " - Withdraw Token To Founder - Expecting Failure");
-passIfGasEqualsGasUsed(finishCrowdsale1_3Tx, finishCrowdsaleMessage + " - Withdraw ETH - Expecting Failure");
+failIfTxStatusError(finishCrowdsale1_1Tx, finishCrowdsaleMessage + " - Finish Crowdsale");
+passIfTxStatusError(finishCrowdsale1_2Tx, finishCrowdsaleMessage + " - Withdraw Token To Founder - Expecting Failure");
+passIfTxStatusError(finishCrowdsale1_3Tx, finishCrowdsaleMessage + " - Withdraw ETH - Expecting Failure");
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -260,8 +260,8 @@ while (txpool.status.pending > 0) {
 printTxData("refund_1Tx", refund_1Tx);
 printTxData("refund_2Tx", refund_2Tx);
 printBalances();
-failIfGasEqualsGasUsed(refund_1Tx, refundMessage + " - ac3");
-failIfGasEqualsGasUsed(refund_2Tx, refundMessage + " - ac4");
+failIfTxStatusError(refund_1Tx, refundMessage + " - ac3");
+failIfTxStatusError(refund_2Tx, refundMessage + " - ac4");
 printCrowdsaleContractDetails();
 printTokenContractDetails();
 console.log("RESULT: ");

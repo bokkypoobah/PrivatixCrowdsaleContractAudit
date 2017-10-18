@@ -1,6 +1,6 @@
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       30.000000000000000000           0.00000000 Account #0 - Miner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       18.000000000000000000           0.00000000 Account #0 - Miner
  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433        0.000000000000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.00000000 Account #3 - Whitelisted
@@ -32,11 +32,11 @@
 
 
 Deploy Crowdsale/Token Contract
-saleAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8 gas=6000000 gasUsed=3459924 costETH=0.062278632 costUSD=23.69016882648 @ ETH/USD=380.39 gasPrice=18000000000 block=174 txIx=0 txId=0xff3a80e2aa8d113f3e5c98d4d058989ff544a26e1b7d4dd367d796b9906ce7b0
+saleAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a gas=6000000 gasUsed=4034859 costETH=0.072627462 costUSD=27.62676027018 @ ETH/USD=380.39 gasPrice=18000000000 block=11 txIx=0 txId=0x5f9d3ff68f5e1b263ebda2b6da0d161591c86190695ff64392c386900aba41f3
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       45.062278632000000000           0.00000000 Account #0 - Miner
- 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.062278632000000000           0.00000000 Account #1 - Contract Owner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       24.072627462000000000           0.00000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.072627462000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.00000000 Account #3 - Whitelisted
  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.00000000 Account #4 - Not Whitelisted
@@ -61,78 +61,78 @@ saleAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8 gas=6000000 gasUsed=34599
 23 0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b        0.000000000000000000         240.00000000 Test 16
 24 0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F        0.000000000000000000         176.00000000 Test 17
 25 0x0000000000000000000000000000000000000000        0.000000000000000000           0.00000000 Burn
-26 0x5029cacf1799deb161dc3ab611b2b368c06f15e8        0.000000000000000000           0.00000000 Sale
-27 0xfbd6536680e8841eb377ae8151e6abf6a991b15e        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
+26 0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a        0.000000000000000000           0.00000000 Sale
+27 0x5d3c4efac63f32333d3f97f39724a060fc11262c        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
                                                                                299935.99999510 Total Token Balances
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
 
 PASS Deploy Crowdsale/Token Contract
-crowdsaleContractAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+crowdsaleContractAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 crowdsale.softCap=3.35e+21 3350
 crowdsale.hardCap=5.7142e+22 57142
 crowdsale.totalEthers=0 0
-crowdsale.token=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
+crowdsale.token=0x5d3c4efac63f32333d3f97f39724a060fc11262c
 crowdsale.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
 crowdsale.maximumTokens=829993599999510 8299935.9999951
 crowdsale.minimalEther=10000000000000000 0.01
 crowdsale.weiPerToken=100000000 1e-10
-crowdsale.startTime=1507518559 Mon, 09 Oct 2017 03:09:19 UTC
-crowdsale.endTime=1507518679 Mon, 09 Oct 2017 03:11:19 UTC
+crowdsale.startTime=1508290384 Wed, 18 Oct 2017 01:33:04 UTC
+crowdsale.endTime=1508290504 Wed, 18 Oct 2017 01:35:04 UTC
 crowdsale.refundAllowed=false
 crowdsale.bountyReward=0 0
 crowdsale.teamReward=0 0
 crowdsale.founderReward=0 0
 crowdsale.softCapReached=false
-tokenContractAddress=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
-token.owner=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+tokenContractAddress=0x5d3c4efac63f32333d3f97f39724a060fc11262c
+token.owner=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 token.totalSupply=299935.9999951
 token.name=Privatix
 token.symbol=PRIX
 token.decimals=8
 token.transferAllowed=false
 token.mintingFinished=false
-Mint 0 #174 {"amount":"11199999999860","to":"0x992066a964c241ed4996e750284d039b14a19fa5"}
-Mint 1 #174 {"amount":"9333333333170","to":"0x1f4df63b8d32e54d94141ef8475c55df4db2a02d"}
-Mint 2 #174 {"amount":"2799999999930","to":"0xce192be11dde37630ef842e3af5fbd7bea15c6f9"}
-Mint 3 #174 {"amount":"1120000000000","to":"0x18d2ad9dfc0ba35e124e105e268ebc224323694a"}
-Mint 4 #174 {"amount":"933333333310","to":"0x4ed1db98a562594cbd42161354746eaafd1f9c44"}
-Mint 5 #174 {"amount":"896000000000","to":"0x00febfc7be373f8088182850feca034dda8b7a67"}
-Mint 6 #174 {"amount":"634666666620","to":"0x86850f5f7d035dd96b07a75c484d520cff13eb58"}
-Mint 7 #174 {"amount":"616000000000","to":"0x08750da30e952b6ef3d034172904ca7ec1ab133a"}
-Mint 8 #174 {"amount":"578666666620","to":"0x4b61ede41e7c8034d6bdf1741ca94910993798aa"}
-Mint 9 #174 {"amount":"560000000000","to":"0xdcb018ead6a94843ef2391b3358294020791450b"}
-Mint 10 #174 {"amount":"560000000000","to":"0xb62e27446079c2f2575c79274cd905bf1e1e4edb"}
-Mint 11 #174 {"amount":"560000000000","to":"0xff37732a268a2ed27627c14c45f100b87e17ffda"}
-Mint 12 #174 {"amount":"80000000000","to":"0x7bded0d5b6e2f9a44f59752af633e4d1ed200392"}
-Mint 13 #174 {"amount":"48000000000","to":"0x995516bb1458fa7b192bb4bab0635fc9ab447fd1"}
-Mint 14 #174 {"amount":"32000000000","to":"0x95a7bef91a5512d954c721ccbd6fc5402667fade"}
-Mint 15 #174 {"amount":"24000000000","to":"0x3e10553fff3a5ac28b9a7e7f4afafb4c1d6efc0b"}
-Mint 16 #174 {"amount":"17600000000","to":"0x7c8e7d9be868673a1bfe0686742accb6eaffef6f"}
-Transfer 0 #174: from=0x0000000000000000000000000000000000000000 to=0x992066a964c241ed4996e750284d039b14a19fa5 value=111999.9999986
-Transfer 1 #174: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
-Transfer 2 #174: from=0x0000000000000000000000000000000000000000 to=0xce192be11dde37630ef842e3af5fbd7bea15c6f9 value=27999.9999993
-Transfer 3 #174: from=0x0000000000000000000000000000000000000000 to=0x18d2ad9dfc0ba35e124e105e268ebc224323694a value=11200
-Transfer 4 #174: from=0x0000000000000000000000000000000000000000 to=0x4ed1db98a562594cbd42161354746eaafd1f9c44 value=9333.3333331
-Transfer 5 #174: from=0x0000000000000000000000000000000000000000 to=0x00febfc7be373f8088182850feca034dda8b7a67 value=8960
-Transfer 6 #174: from=0x0000000000000000000000000000000000000000 to=0x86850f5f7d035dd96b07a75c484d520cff13eb58 value=6346.6666662
-Transfer 7 #174: from=0x0000000000000000000000000000000000000000 to=0x08750da30e952b6ef3d034172904ca7ec1ab133a value=6160
-Transfer 8 #174: from=0x0000000000000000000000000000000000000000 to=0x4b61ede41e7c8034d6bdf1741ca94910993798aa value=5786.6666662
-Transfer 9 #174: from=0x0000000000000000000000000000000000000000 to=0xdcb018ead6a94843ef2391b3358294020791450b value=5600
-Transfer 10 #174: from=0x0000000000000000000000000000000000000000 to=0xb62e27446079c2f2575c79274cd905bf1e1e4edb value=5600
-Transfer 11 #174: from=0x0000000000000000000000000000000000000000 to=0xff37732a268a2ed27627c14c45f100b87e17ffda value=5600
-Transfer 12 #174: from=0x0000000000000000000000000000000000000000 to=0x7bded0d5b6e2f9a44f59752af633e4d1ed200392 value=800
-Transfer 13 #174: from=0x0000000000000000000000000000000000000000 to=0x995516bb1458fa7b192bb4bab0635fc9ab447fd1 value=480
-Transfer 14 #174: from=0x0000000000000000000000000000000000000000 to=0x95a7bef91a5512d954c721ccbd6fc5402667fade value=320
-Transfer 15 #174: from=0x0000000000000000000000000000000000000000 to=0x3e10553fff3a5ac28b9a7e7f4afafb4c1d6efc0b value=240
-Transfer 16 #174: from=0x0000000000000000000000000000000000000000 to=0x7c8e7d9be868673a1bfe0686742accb6eaffef6f value=176
+Mint 0 #11 {"amount":"11199999999860","to":"0x992066a964c241ed4996e750284d039b14a19fa5"}
+Mint 1 #11 {"amount":"9333333333170","to":"0x1f4df63b8d32e54d94141ef8475c55df4db2a02d"}
+Mint 2 #11 {"amount":"2799999999930","to":"0xce192be11dde37630ef842e3af5fbd7bea15c6f9"}
+Mint 3 #11 {"amount":"1120000000000","to":"0x18d2ad9dfc0ba35e124e105e268ebc224323694a"}
+Mint 4 #11 {"amount":"933333333310","to":"0x4ed1db98a562594cbd42161354746eaafd1f9c44"}
+Mint 5 #11 {"amount":"896000000000","to":"0x00febfc7be373f8088182850feca034dda8b7a67"}
+Mint 6 #11 {"amount":"634666666620","to":"0x86850f5f7d035dd96b07a75c484d520cff13eb58"}
+Mint 7 #11 {"amount":"616000000000","to":"0x08750da30e952b6ef3d034172904ca7ec1ab133a"}
+Mint 8 #11 {"amount":"578666666620","to":"0x4b61ede41e7c8034d6bdf1741ca94910993798aa"}
+Mint 9 #11 {"amount":"560000000000","to":"0xdcb018ead6a94843ef2391b3358294020791450b"}
+Mint 10 #11 {"amount":"560000000000","to":"0xb62e27446079c2f2575c79274cd905bf1e1e4edb"}
+Mint 11 #11 {"amount":"560000000000","to":"0xff37732a268a2ed27627c14c45f100b87e17ffda"}
+Mint 12 #11 {"amount":"80000000000","to":"0x7bded0d5b6e2f9a44f59752af633e4d1ed200392"}
+Mint 13 #11 {"amount":"48000000000","to":"0x995516bb1458fa7b192bb4bab0635fc9ab447fd1"}
+Mint 14 #11 {"amount":"32000000000","to":"0x95a7bef91a5512d954c721ccbd6fc5402667fade"}
+Mint 15 #11 {"amount":"24000000000","to":"0x3e10553fff3a5ac28b9a7e7f4afafb4c1d6efc0b"}
+Mint 16 #11 {"amount":"17600000000","to":"0x7c8e7d9be868673a1bfe0686742accb6eaffef6f"}
+Transfer 0 #11: from=0x0000000000000000000000000000000000000000 to=0x992066a964c241ed4996e750284d039b14a19fa5 value=111999.9999986
+Transfer 1 #11: from=0x0000000000000000000000000000000000000000 to=0x1f4df63b8d32e54d94141ef8475c55df4db2a02d value=93333.3333317
+Transfer 2 #11: from=0x0000000000000000000000000000000000000000 to=0xce192be11dde37630ef842e3af5fbd7bea15c6f9 value=27999.9999993
+Transfer 3 #11: from=0x0000000000000000000000000000000000000000 to=0x18d2ad9dfc0ba35e124e105e268ebc224323694a value=11200
+Transfer 4 #11: from=0x0000000000000000000000000000000000000000 to=0x4ed1db98a562594cbd42161354746eaafd1f9c44 value=9333.3333331
+Transfer 5 #11: from=0x0000000000000000000000000000000000000000 to=0x00febfc7be373f8088182850feca034dda8b7a67 value=8960
+Transfer 6 #11: from=0x0000000000000000000000000000000000000000 to=0x86850f5f7d035dd96b07a75c484d520cff13eb58 value=6346.6666662
+Transfer 7 #11: from=0x0000000000000000000000000000000000000000 to=0x08750da30e952b6ef3d034172904ca7ec1ab133a value=6160
+Transfer 8 #11: from=0x0000000000000000000000000000000000000000 to=0x4b61ede41e7c8034d6bdf1741ca94910993798aa value=5786.6666662
+Transfer 9 #11: from=0x0000000000000000000000000000000000000000 to=0xdcb018ead6a94843ef2391b3358294020791450b value=5600
+Transfer 10 #11: from=0x0000000000000000000000000000000000000000 to=0xb62e27446079c2f2575c79274cd905bf1e1e4edb value=5600
+Transfer 11 #11: from=0x0000000000000000000000000000000000000000 to=0xff37732a268a2ed27627c14c45f100b87e17ffda value=5600
+Transfer 12 #11: from=0x0000000000000000000000000000000000000000 to=0x7bded0d5b6e2f9a44f59752af633e4d1ed200392 value=800
+Transfer 13 #11: from=0x0000000000000000000000000000000000000000 to=0x995516bb1458fa7b192bb4bab0635fc9ab447fd1 value=480
+Transfer 14 #11: from=0x0000000000000000000000000000000000000000 to=0x95a7bef91a5512d954c721ccbd6fc5402667fade value=320
+Transfer 15 #11: from=0x0000000000000000000000000000000000000000 to=0x3e10553fff3a5ac28b9a7e7f4afafb4c1d6efc0b value=240
+Transfer 16 #11: from=0x0000000000000000000000000000000000000000 to=0x7c8e7d9be868673a1bfe0686742accb6eaffef6f value=176
 
 Whitelist
-whitelist1Tx gas=400000 gasUsed=44213 costETH=0.000795834 costUSD=0.30272729526 @ ETH/USD=380.39 gasPrice=18000000000 block=178 txIx=0 txId=0x560c19fe6847bfdf93c87b26f5645d71d431c74ec1d1d33fc2eac2e8f40dfd4a
+whitelist1Tx gas=400000 gasUsed=45677 costETH=0.000822186 costUSD=0.31275133254 @ ETH/USD=380.39 gasPrice=18000000000 block=14 txIx=0 txId=0x75ebbc878ab041b83891bc3bf3e2b03a8cdcb5caaa60e5a2aa46e1d744852684
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       60.063074466000000000           0.00000000 Account #0 - Miner
- 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.063074466000000000           0.00000000 Account #1 - Contract Owner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       33.073449648000000000           0.00000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.073449648000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.00000000 Account #3 - Whitelisted
  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.00000000 Account #4 - Not Whitelisted
@@ -157,31 +157,31 @@ whitelist1Tx gas=400000 gasUsed=44213 costETH=0.000795834 costUSD=0.30272729526 
 23 0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b        0.000000000000000000         240.00000000 Test 16
 24 0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F        0.000000000000000000         176.00000000 Test 17
 25 0x0000000000000000000000000000000000000000        0.000000000000000000           0.00000000 Burn
-26 0x5029cacf1799deb161dc3ab611b2b368c06f15e8        0.000000000000000000           0.00000000 Sale
-27 0xfbd6536680e8841eb377ae8151e6abf6a991b15e        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
+26 0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a        0.000000000000000000           0.00000000 Sale
+27 0x5d3c4efac63f32333d3f97f39724a060fc11262c        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
                                                                                299935.99999510 Total Token Balances
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
 
 PASS Whitelist - ac3 Whitelist
-crowdsaleContractAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+crowdsaleContractAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 crowdsale.softCap=3.35e+21 3350
 crowdsale.hardCap=5.7142e+22 57142
 crowdsale.totalEthers=0 0
-crowdsale.token=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
+crowdsale.token=0x5d3c4efac63f32333d3f97f39724a060fc11262c
 crowdsale.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
 crowdsale.maximumTokens=829993599999510 8299935.9999951
 crowdsale.minimalEther=10000000000000000 0.01
 crowdsale.weiPerToken=100000000 1e-10
-crowdsale.startTime=1507518559 Mon, 09 Oct 2017 03:09:19 UTC
-crowdsale.endTime=1507518679 Mon, 09 Oct 2017 03:11:19 UTC
+crowdsale.startTime=1508290384 Wed, 18 Oct 2017 01:33:04 UTC
+crowdsale.endTime=1508290504 Wed, 18 Oct 2017 01:35:04 UTC
 crowdsale.refundAllowed=false
 crowdsale.bountyReward=0 0
 crowdsale.teamReward=0 0
 crowdsale.founderReward=0 0
 crowdsale.softCapReached=false
-tokenContractAddress=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
-token.owner=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+tokenContractAddress=0x5d3c4efac63f32333d3f97f39724a060fc11262c
+token.owner=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 token.totalSupply=299935.9999951
 token.name=Privatix
 token.symbol=PRIX
@@ -189,20 +189,20 @@ token.decimals=8
 token.transferAllowed=false
 token.mintingFinished=false
 
-Waiting until startTime at 1507518559 Mon, 09 Oct 2017 14:09:19 AEDT currentDate=Mon, 09 Oct 2017 14:08:29 AEDT
-Waited until startTime at 1507518559 Mon, 09 Oct 2017 14:09:19 AEDT currentDate=Mon, 09 Oct 2017 14:09:19 AEDT
-Waiting until whitelistOverTime at 1507518619 Mon, 09 Oct 2017 14:10:19 AEDT currentDate=Mon, 09 Oct 2017 14:09:19 AEDT
-Waited until whitelistOverTime at 1507518619 Mon, 09 Oct 2017 14:10:19 AEDT currentDate=Mon, 09 Oct 2017 14:10:19 AEDT
+Waiting until startTime at 1508290384 Wed, 18 Oct 2017 12:33:04 AEDT currentDate=Wed, 18 Oct 2017 12:32:28 AEDT
+Waited until startTime at 1508290384 Wed, 18 Oct 2017 12:33:04 AEDT currentDate=Wed, 18 Oct 2017 12:33:04 AEDT
+Waiting until whitelistOverTime at 1508290444 Wed, 18 Oct 2017 12:34:04 AEDT currentDate=Wed, 18 Oct 2017 12:33:04 AEDT
+Waited until whitelistOverTime at 1508290444 Wed, 18 Oct 2017 12:34:04 AEDT currentDate=Wed, 18 Oct 2017 12:34:04 AEDT
 Send Contribution After Whitelist Over
-sendContribution4_1Tx gas=400000 gasUsed=74756 costETH=0.001345608 costUSD=0.51185582712 @ ETH/USD=380.39 gasPrice=18000000000 block=216 txIx=0 txId=0x1f404fe45d30a0fdfd768fd4e3f1d2b81f863a6c6a258e29b281de9aa031405c
-sendContribution4_2Tx gas=400000 gasUsed=74756 costETH=0.001345608 costUSD=0.51185582712 @ ETH/USD=380.39 gasPrice=18000000000 block=216 txIx=1 txId=0xc67e4115fe549b1d10fd094edafbd34828358bcd32562c139de81757508a0b25
+sendContribution4_1Tx gas=400000 gasUsed=74619 costETH=0.001343142 costUSD=0.51091778538 @ ETH/USD=380.39 gasPrice=18000000000 block=50 txIx=1 txId=0x2c94548cb6a0818472e5dd0eab2bb8f883ddc89952fe6bd832e997d6a4d05f07
+sendContribution4_2Tx gas=400000 gasUsed=74619 costETH=0.001343142 costUSD=0.51091778538 @ ETH/USD=380.39 gasPrice=18000000000 block=50 txIx=0 txId=0x9c20d428841135ef06a21dcdbfef942f69c4a541e7e29fc3009b104b15c43450
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      250.065765682000000000           0.00000000 Account #0 - Miner
- 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.063074466000000000           0.00000000 Account #1 - Contract Owner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      141.076135932000000000           0.00000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.073449648000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
- 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0      -10.001345608000000000        1400.00000000 Account #3 - Whitelisted
- 4 0xa44a08d3f6933c69212114bb66e2df1813651844      -10.001345608000000000        1400.00000000 Account #4 - Not Whitelisted
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0      -10.001343142000000000        1400.00000000 Account #3 - Whitelisted
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844      -10.001343142000000000        1400.00000000 Account #4 - Not Whitelisted
  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.00000000 Account #5
  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.00000000 Account #6
  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.00000000 Account #7
@@ -224,58 +224,58 @@ sendContribution4_2Tx gas=400000 gasUsed=74756 costETH=0.001345608 costUSD=0.511
 23 0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b        0.000000000000000000         240.00000000 Test 16
 24 0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F        0.000000000000000000         176.00000000 Test 17
 25 0x0000000000000000000000000000000000000000        0.000000000000000000           0.00000000 Burn
-26 0x5029cacf1799deb161dc3ab611b2b368c06f15e8       20.000000000000000000           0.00000000 Sale
-27 0xfbd6536680e8841eb377ae8151e6abf6a991b15e        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
+26 0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a       20.000000000000000000           0.00000000 Sale
+27 0x5d3c4efac63f32333d3f97f39724a060fc11262c        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
                                                                                302735.99999510 Total Token Balances
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
 
 PASS Send Contribution After Whitelist Over - ac3 10 ETH = 1,400 PRIX
 PASS Send Contribution After Whitelist Over - ac4 10 ETH = 1,400 PRIX
-crowdsaleContractAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+crowdsaleContractAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 crowdsale.softCap=3.35e+21 3350
 crowdsale.hardCap=5.7142e+22 57142
 crowdsale.totalEthers=0 0
-crowdsale.token=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
+crowdsale.token=0x5d3c4efac63f32333d3f97f39724a060fc11262c
 crowdsale.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
 crowdsale.maximumTokens=829993599999510 8299935.9999951
 crowdsale.minimalEther=10000000000000000 0.01
 crowdsale.weiPerToken=100000000 1e-10
-crowdsale.startTime=1507518559 Mon, 09 Oct 2017 03:09:19 UTC
-crowdsale.endTime=1507518679 Mon, 09 Oct 2017 03:11:19 UTC
+crowdsale.startTime=1508290384 Wed, 18 Oct 2017 01:33:04 UTC
+crowdsale.endTime=1508290504 Wed, 18 Oct 2017 01:35:04 UTC
 crowdsale.refundAllowed=false
 crowdsale.bountyReward=0 0
 crowdsale.teamReward=0 0
 crowdsale.founderReward=0 0
 crowdsale.softCapReached=false
-TokenPurchase 0 #216: purchaser=undefined beneficiary=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 value=10 amount=1400
-TokenPurchase 1 #216: purchaser=undefined beneficiary=0xa44a08d3f6933c69212114bb66e2df1813651844 value=10 amount=1400
-tokenContractAddress=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
-token.owner=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+TokenPurchase 0 #50: purchaser=undefined beneficiary=0xa44a08d3f6933c69212114bb66e2df1813651844 value=10 amount=1400
+TokenPurchase 1 #50: purchaser=undefined beneficiary=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 value=10 amount=1400
+tokenContractAddress=0x5d3c4efac63f32333d3f97f39724a060fc11262c
+token.owner=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 token.totalSupply=302735.9999951
 token.name=Privatix
 token.symbol=PRIX
 token.decimals=8
 token.transferAllowed=false
 token.mintingFinished=false
-Mint 0 #216 {"amount":"140000000000","to":"0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0"}
-Mint 1 #216 {"amount":"140000000000","to":"0xa44a08d3f6933c69212114bb66e2df1813651844"}
-Transfer 0 #216: from=0x0000000000000000000000000000000000000000 to=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 value=1400
-Transfer 1 #216: from=0x0000000000000000000000000000000000000000 to=0xa44a08d3f6933c69212114bb66e2df1813651844 value=1400
+Mint 0 #50 {"amount":"140000000000","to":"0xa44a08d3f6933c69212114bb66e2df1813651844"}
+Mint 1 #50 {"amount":"140000000000","to":"0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0"}
+Transfer 0 #50: from=0x0000000000000000000000000000000000000000 to=0xa44a08d3f6933c69212114bb66e2df1813651844 value=1400
+Transfer 1 #50: from=0x0000000000000000000000000000000000000000 to=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 value=1400
 
-Waiting until endTimeTime at 1507518680 Mon, 09 Oct 2017 14:11:20 AEDT currentDate=Mon, 09 Oct 2017 14:10:34 AEDT
-Waited until endTimeTime at 1507518680 Mon, 09 Oct 2017 14:11:20 AEDT currentDate=Mon, 09 Oct 2017 14:11:20 AEDT
+Waiting until endTimeTime at 1508290505 Wed, 18 Oct 2017 12:35:05 AEDT currentDate=Wed, 18 Oct 2017 12:34:21 AEDT
+Waited until endTimeTime at 1508290505 Wed, 18 Oct 2017 12:35:05 AEDT currentDate=Wed, 18 Oct 2017 12:35:05 AEDT
 Finish Crowdsale
-finishCrowdsale1_1Tx gas=400000 gasUsed=118133 costETH=0.002126394 costUSD=0.80885901366 @ ETH/USD=380.39 gasPrice=18000000000 block=233 txIx=0 txId=0xb7db23447aad046fa993e8af6d731cf2bad6cbd69fcba537f0e8f6eade686276
-finishCrowdsale1_2Tx gas=400000 gasUsed=400000 costETH=0.0072 costUSD=2.738808 @ ETH/USD=380.39 gasPrice=18000000000 block=233 txIx=1 txId=0xac30673125eb7695d3899015b8a93f47f56d49e5e450577550ae475a6cf0def5
-finishCrowdsale1_3Tx gas=400000 gasUsed=400000 costETH=0.0072 costUSD=2.738808 @ ETH/USD=380.39 gasPrice=18000000000 block=233 txIx=2 txId=0xcf22ec42280c9c5683730c062b5e38a5d2b99bd414f35b2e2b952800cc442569
+finishCrowdsale1_1Tx gas=400000 gasUsed=118133 costETH=0.002126394 costUSD=0.80885901366 @ ETH/USD=380.39 gasPrice=18000000000 block=61 txIx=0 txId=0x3019a30bef732c88d15a72764b2a0f5faad785b3ffb744f48e2dce8a09a3a611
+finishCrowdsale1_2Tx gas=400000 gasUsed=23053 costETH=0.000414954 costUSD=0.15784435206 @ ETH/USD=380.39 gasPrice=18000000000 block=61 txIx=1 txId=0xa0e5512731a12d075ffefcd4b9c4ba80940a9249bbf830f26153da869ef1e24c
+finishCrowdsale1_3Tx gas=400000 gasUsed=21852 costETH=0.000393336 costUSD=0.14962108104 @ ETH/USD=380.39 gasPrice=18000000000 block=61 txIx=2 txId=0xbab3fb726fc66718e62910373e0c7ee29176c47de82f08ebfd9978c30639e91f
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      335.082292076000000000           0.00000000 Account #0 - Miner
- 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.079600860000000000           0.00000000 Account #1 - Contract Owner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      174.079070616000000000           0.00000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.076384332000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
- 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0      -10.001345608000000000        1400.00000000 Account #3 - Whitelisted
- 4 0xa44a08d3f6933c69212114bb66e2df1813651844      -10.001345608000000000        1400.00000000 Account #4 - Not Whitelisted
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0      -10.001343142000000000        1400.00000000 Account #3 - Whitelisted
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844      -10.001343142000000000        1400.00000000 Account #4 - Not Whitelisted
  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.00000000 Account #5
  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.00000000 Account #6
  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.00000000 Account #7
@@ -297,8 +297,8 @@ finishCrowdsale1_3Tx gas=400000 gasUsed=400000 costETH=0.0072 costUSD=2.738808 @
 23 0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b        0.000000000000000000         240.00000000 Test 16
 24 0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F        0.000000000000000000         176.00000000 Test 17
 25 0x0000000000000000000000000000000000000000        0.000000000000000000           0.00000000 Burn
-26 0x5029cacf1799deb161dc3ab611b2b368c06f15e8       20.000000000000000000           0.00000000 Sale
-27 0xfbd6536680e8841eb377ae8151e6abf6a991b15e        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
+26 0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a       20.000000000000000000           0.00000000 Sale
+27 0x5d3c4efac63f32333d3f97f39724a060fc11262c        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
                                                                                302735.99999510 Total Token Balances
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
@@ -306,43 +306,43 @@ finishCrowdsale1_3Tx gas=400000 gasUsed=400000 costETH=0.0072 costUSD=2.738808 @
 PASS Finish Crowdsale - Finish Crowdsale
 PASS Finish Crowdsale - Withdraw Token To Founder - Expecting Failure
 PASS Finish Crowdsale - Withdraw ETH - Expecting Failure
-crowdsaleContractAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+crowdsaleContractAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 crowdsale.softCap=3.35e+21 3350
 crowdsale.hardCap=5.7142e+22 57142
 crowdsale.totalEthers=0 0
-crowdsale.token=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
+crowdsale.token=0x5d3c4efac63f32333d3f97f39724a060fc11262c
 crowdsale.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
 crowdsale.maximumTokens=829993599999510 8299935.9999951
 crowdsale.minimalEther=10000000000000000 0.01
 crowdsale.weiPerToken=100000000 1e-10
-crowdsale.startTime=1507518559 Mon, 09 Oct 2017 03:09:19 UTC
-crowdsale.endTime=1507518679 Mon, 09 Oct 2017 03:11:19 UTC
+crowdsale.startTime=1508290384 Wed, 18 Oct 2017 01:33:04 UTC
+crowdsale.endTime=1508290504 Wed, 18 Oct 2017 01:35:04 UTC
 crowdsale.refundAllowed=true
 crowdsale.bountyReward=1094226506006 10942.26506006
 crowdsale.teamReward=2553195180681 25531.95180681
 crowdsale.founderReward=2553195180681 25531.95180681
 crowdsale.softCapReached=false
-tokenContractAddress=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
-token.owner=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+tokenContractAddress=0x5d3c4efac63f32333d3f97f39724a060fc11262c
+token.owner=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 token.totalSupply=302735.9999951
 token.name=Privatix
 token.symbol=PRIX
 token.decimals=8
 token.transferAllowed=false
 token.mintingFinished=true
-TransferAllowed 0 #233 {"":false}
-MintFinished 0 #233 {}
+TransferAllowed 0 #61 {"":false}
+MintFinished 0 #61 {}
 
 Withdraw Refund
-refund_1Tx gas=100000 gasUsed=24926 costETH=0.000448668 costUSD=0.17066882052 @ ETH/USD=380.39 gasPrice=18000000000 block=236 txIx=1 txId=0x817b1d8fdabd2a6288d13069b8c15625018ea9ef5ed9f6651c458d3f3cf400c9
-refund_2Tx gas=100000 gasUsed=34852 costETH=0.000627336 costUSD=0.23863234104 @ ETH/USD=380.39 gasPrice=18000000000 block=236 txIx=0 txId=0x35b2331f7abc9cf49277ef6c9e331d4ae020180d373cea0319cebb3b67d7d0d8
+refund_1Tx gas=100000 gasUsed=34852 costETH=0.000627336 costUSD=0.23863234104 @ ETH/USD=380.39 gasPrice=18000000000 block=65 txIx=0 txId=0x7c85f3a357fac30bccc9d809bb09b1a09056c7469b047e3ba1942782e1701dfa
+refund_2Tx gas=100000 gasUsed=24926 costETH=0.000448668 costUSD=0.17066882052 @ ETH/USD=380.39 gasPrice=18000000000 block=65 txIx=1 txId=0xd33cb3d5b8329cae63dc3299424de148007e9c189c0318f81ab063a9ae3f1f28
  # Account                                             EtherBalanceChange                Token Name
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
- 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      350.083368080000000000           0.00000000 Account #0 - Miner
- 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.079600860000000000           0.00000000 Account #1 - Contract Owner
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      186.080146620000000000           0.00000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.076384332000000000           0.00000000 Account #1 - Contract Owner
  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.00000000 Account #2 - Wallet
- 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0       -0.001794276000000000           0.00000000 Account #3 - Whitelisted
- 4 0xa44a08d3f6933c69212114bb66e2df1813651844       -0.001972944000000000           0.00000000 Account #4 - Not Whitelisted
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0       -0.001970478000000000           0.00000000 Account #3 - Whitelisted
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844       -0.001791810000000000           0.00000000 Account #4 - Not Whitelisted
  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.00000000 Account #5
  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.00000000 Account #6
  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.00000000 Account #7
@@ -364,40 +364,40 @@ refund_2Tx gas=100000 gasUsed=34852 costETH=0.000627336 costUSD=0.23863234104 @ 
 23 0x3E10553fff3a5Ac28B9A7e7f4afaFB4C1D6Efc0b        0.000000000000000000         240.00000000 Test 16
 24 0x7C8E7d9BE868673a1bfE0686742aCcb6EaFFEF6F        0.000000000000000000         176.00000000 Test 17
 25 0x0000000000000000000000000000000000000000        0.000000000000000000        2800.00000000 Burn
-26 0x5029cacf1799deb161dc3ab611b2b368c06f15e8        0.000000000000000000           0.00000000 Sale
-27 0xfbd6536680e8841eb377ae8151e6abf6a991b15e        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
+26 0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a        0.000000000000000000           0.00000000 Sale
+27 0x5d3c4efac63f32333d3f97f39724a060fc11262c        0.000000000000000000           0.00000000 Token 'PRIX' 'Privatix'
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
                                                                                302735.99999510 Total Token Balances
 -- ------------------------------------------ --------------------------- -------------------- ---------------------------
 
 PASS Withdraw Refund - ac3
 PASS Withdraw Refund - ac4
-crowdsaleContractAddress=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+crowdsaleContractAddress=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 crowdsale.softCap=3.35e+21 3350
 crowdsale.hardCap=5.7142e+22 57142
 crowdsale.totalEthers=0 0
-crowdsale.token=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
+crowdsale.token=0x5d3c4efac63f32333d3f97f39724a060fc11262c
 crowdsale.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
 crowdsale.maximumTokens=829993599999510 8299935.9999951
 crowdsale.minimalEther=10000000000000000 0.01
 crowdsale.weiPerToken=100000000 1e-10
-crowdsale.startTime=1507518559 Mon, 09 Oct 2017 03:09:19 UTC
-crowdsale.endTime=1507518679 Mon, 09 Oct 2017 03:11:19 UTC
+crowdsale.startTime=1508290384 Wed, 18 Oct 2017 01:33:04 UTC
+crowdsale.endTime=1508290504 Wed, 18 Oct 2017 01:35:04 UTC
 crowdsale.refundAllowed=true
 crowdsale.bountyReward=1094226506006 10942.26506006
 crowdsale.teamReward=2553195180681 25531.95180681
 crowdsale.founderReward=2553195180681 25531.95180681
 crowdsale.softCapReached=false
-tokenContractAddress=0xfbd6536680e8841eb377ae8151e6abf6a991b15e
-token.owner=0x5029cacf1799deb161dc3ab611b2b368c06f15e8
+tokenContractAddress=0x5d3c4efac63f32333d3f97f39724a060fc11262c
+token.owner=0x936e75a404fc4ea6aba4d9c3b20ea67abab3188a
 token.totalSupply=302735.9999951
 token.name=Privatix
 token.symbol=PRIX
 token.decimals=8
 token.transferAllowed=false
 token.mintingFinished=true
-Burn 0 #236 {"from":"0xa44a08d3f6933c69212114bb66e2df1813651844","value":"140000000000"}
-Burn 1 #236 {"from":"0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0","value":"140000000000"}
-Transfer 0 #236: from=0xa44a08d3f6933c69212114bb66e2df1813651844 to=0x0000000000000000000000000000000000000000 value=1400
-Transfer 1 #236: from=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 to=0x0000000000000000000000000000000000000000 value=1400
+Burn 0 #65 {"from":"0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0","value":"140000000000"}
+Burn 1 #65 {"from":"0xa44a08d3f6933c69212114bb66e2df1813651844","value":"140000000000"}
+Transfer 0 #65: from=0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0 to=0x0000000000000000000000000000000000000000 value=1400
+Transfer 1 #65: from=0xa44a08d3f6933c69212114bb66e2df1813651844 to=0x0000000000000000000000000000000000000000 value=1400
 
