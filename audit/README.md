@@ -1,7 +1,5 @@
 # Privatix Crowdsale Contract Audit
 
-TODO: Test the latest commit.
-
 <br />
 
 ## Summary
@@ -18,8 +16,9 @@ This audit has been conducted on Privatix's source code in commits
 [5fda921](https://github.com/Privatix/smart-contract/commit/5fda9217e40aad85a9d12d05c19aa3955fd10fb9),
 [fde2422](https://github.com/Privatix/smart-contract/commit/fde2422394212f7e6fbea7318432860273149511),
 [e8fbb6d](https://github.com/Privatix/smart-contract/commit/e8fbb6dd9372a844d2a8e716104aa141d3552b92),
-[f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842) and
-[15001fe](https://github.com/Privatix/smart-contract/commit/15001fe2b2cf7094003db9b57db6d038602900a7).
+[f7a1ce3](https://github.com/Privatix/smart-contract/commit/f7a1ce31e2640daabc0f4198493a6c914e28f842),
+[15001fe](https://github.com/Privatix/smart-contract/commit/15001fe2b2cf7094003db9b57db6d038602900a7) and
+[290e66b](https://github.com/Privatix/smart-contract/commit/290e66bddc64de8ac7f392a15a1da3ab9cd5be6a).
 
 No potential vulnerabilities have been identified in the crowdsale and token contract.
 
@@ -311,10 +310,10 @@ The following functions were tested using the script [test/01_test1.sh](test/01_
 in [test/test1results.txt](test/test1results.txt) and the detailed output saved in [test/test1output.txt](test/test1output.txt):
 
 * [x] Deploy *Sale* contract
+* [x] Send contribution before start and no whitelist - expecting failure
 * [x] Add whitelisted addresses
-* [x] Send contribution before start - expecting failure
-* [x] Send contribution after start - success for whitelisted account, failure for non-whitelisted account
-* [x] Send contribution after whitelist period over - success for whitelisted and non-whitelisted account
+* [x] Send contribution before start - success for whitelisted account, failure for non-whitelisted account
+* [x] Send contribution after start - success for whitelisted and non-whitelisted account
 * [x] Send contribution to hard cap
 * [x] Attempt transfers - failure
 * [x] Finish crowdsale

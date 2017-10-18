@@ -32,7 +32,7 @@ if [ "$MODE" == "dev" ]; then
   STARTTIME=`echo "$CURRENTTIME" | bc`
 else
   # Start time 1m 10s in the future
-  STARTTIME=`echo "$CURRENTTIME+90" | bc`
+  STARTTIME=`echo "$CURRENTTIME+120" | bc`
 fi
 STARTTIME_S=`date -r $STARTTIME -u`
 ENDTIME=`echo "$CURRENTTIME+60*5" | bc`
@@ -69,7 +69,7 @@ printf "ENDTIME         = '$ENDTIME' '$ENDTIME_S'\n" | tee -a $TEST1OUTPUT
 # --- Modify parameters ---
 `perl -pi -e "s/zeppelin-solidity\/contracts\/math\//.\//" $CROWDSALESOL`
 # Modify non-whitelist period from from 1 day to 1 minute
-`perl -pi -e "s/startTime \+ 1 days \< now/startTime \+ 1 minutes \< now/" $CROWDSALESOL`
+# `perl -pi -e "s/startTime \+ 1 days \< now/startTime \+ 1 minutes \< now/" $CROWDSALESOL`
 # Modify end date to 3 minutes after start date
 `perl -pi -e "s/endTime \= _startTime \+ 28 days/endTime \= _startTime \+ 3 minutes/" $CROWDSALESOL`
 # Modify founder token transfer from 1 year to 5 minutes
@@ -162,6 +162,24 @@ console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
+var sendContribution1Message = "Send Contribution Before Start, Not Whitelisted";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + sendContribution1Message);
+var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("1", "ether")});
+var sendContribution1_2Tx = eth.sendTransaction({from: account4, to: saleAddress, gas: 400000, value: web3.toWei("1", "ether")});
+while (txpool.status.pending > 0) {
+}
+printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
+printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
+printBalances();
+passIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 1 ETH - Expecting Failure");
+passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac4 1 ETH - Expecting Failure");
+printCrowdsaleContractDetails();
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
 var whitelistMessage = "Whitelist";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + whitelistMessage);
@@ -180,36 +198,7 @@ console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var sendContribution1Message = "Send Contribution Before Start";
-// -----------------------------------------------------------------------------
-console.log("RESULT: " + sendContribution1Message);
-var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("1", "ether")});
-var sendContribution1_2Tx = eth.sendTransaction({from: account4, to: saleAddress, gas: 400000, value: web3.toWei("1", "ether")});
-while (txpool.status.pending > 0) {
-}
-printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
-printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
-printBalances();
-passIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 1 ETH - Expecting Failure");
-passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac4 1 ETH - Expecting Failure");
-printCrowdsaleContractDetails();
-printTokenContractDetails();
-console.log("RESULT: ");
-
-
-// -----------------------------------------------------------------------------
-// Wait for crowdsale start
-// -----------------------------------------------------------------------------
-var startTime = sale.startTime();
-var startTimeDate = new Date(startTime * 1000);
-console.log("RESULT: Waiting until startTime at " + startTime + " " + startTimeDate + " currentDate=" + new Date());
-while ((new Date()).getTime() <= startTimeDate.getTime()) {
-}
-console.log("RESULT: Waited until startTime at " + startTime + " " + startTimeDate + " currentDate=" + new Date());
-
-
-// -----------------------------------------------------------------------------
-var sendContribution2Message = "Send Contribution After Start";
+var sendContribution2Message = "Send Contribution Before Start - One Whitelisted";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution2Message);
 var sendContribution2_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("2000", "ether")});
@@ -226,6 +215,18 @@ printTokenContractDetails();
 console.log("RESULT: ");
 
 
+// -----------------------------------------------------------------------------
+// Wait for crowdsale start
+// -----------------------------------------------------------------------------
+var startTime = sale.startTime();
+var startTimeDate = new Date(startTime * 1000);
+console.log("RESULT: Waiting until startTime at " + startTime + " " + startTimeDate + " currentDate=" + new Date());
+while ((new Date()).getTime() <= startTimeDate.getTime()) {
+}
+console.log("RESULT: Waited until startTime at " + startTime + " " + startTimeDate + " currentDate=" + new Date());
+
+
+if (false) {
 // -----------------------------------------------------------------------------
 var sendContribution3Message = "Send Contribution After Start";
 // -----------------------------------------------------------------------------
@@ -253,7 +254,7 @@ console.log("RESULT: Waiting until whitelistOverTime at " + whitelistOverTime + 
 while ((new Date()).getTime() <= whitelistOverTimeDate.getTime()) {
 }
 console.log("RESULT: Waited until whitelistOverTime at " + whitelistOverTime + " " + whitelistOverTimeDate + " currentDate=" + new Date());
-
+}
 
 // -----------------------------------------------------------------------------
 var sendContribution4Message = "Send Contribution After Whitelist Over";
@@ -277,7 +278,7 @@ console.log("RESULT: ");
 var sendContribution5Message = "Send Contribution To Hard Cap";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution5Message);
-var sendContribution5_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("26871", "ether")});
+var sendContribution5_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("27871", "ether")});
 var sendContribution5_2Tx = eth.sendTransaction({from: account4, to: saleAddress, gas: 400000, value: web3.toWei("26871", "ether")});
 while (txpool.status.pending > 0) {
 }
